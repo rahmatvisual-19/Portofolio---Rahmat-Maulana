@@ -123,16 +123,28 @@ const formBtn = document.querySelector("[data-form-btn]");
 // add event to all form input field
 for (let i = 0; i < formInputs.length; i++) {
   formInputs[i].addEventListener("input", function () {
-
     // check form validation
     if (form.checkValidity()) {
       formBtn.removeAttribute("disabled");
     } else {
       formBtn.setAttribute("disabled", "");
     }
-
   });
 }
+
+// custom: handle form submit to WhatsApp
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
+  const name = form.querySelector('input[name="fullname"]').value;
+  const email = form.querySelector('input[name="email"]').value;
+  const message = form.querySelector('textarea[name="message"]').value;
+  // Format pesan WhatsApp
+  const waMessage = `Halo, saya ingin memesan jasa.\nNama: ${name}\nEmail: ${email}\nPesan: ${message}`;
+  // Encode pesan untuk URL
+  const encodedMsg = encodeURIComponent(waMessage);
+  // Redirect ke wa.me
+  window.open(`https://wa.me/6282176954751?text=${encodedMsg}`, '_blank');
+});
 
 
 
@@ -157,3 +169,15 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
   });
 }
+
+// Auto show all project-item on portfolio page load
+window.addEventListener('DOMContentLoaded', function() {
+  // Temukan tombol filter 'All' dan trigger klik
+  const allBtn = document.querySelector('.filter-item button[data-filter-btn].active');
+  if (allBtn) {
+    allBtn.click();
+  } else {
+    // fallback: trigger filterFunc('all') langsung jika tombol tidak ditemukan
+    if (typeof filterFunc === 'function') filterFunc('all');
+  }
+});
