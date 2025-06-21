@@ -58,7 +58,7 @@ overlay.addEventListener("click", testimonialsModalFunc);
 // custom select variables
 const select = document.querySelector("[data-select]");
 const selectItems = document.querySelectorAll("[data-select-item]");
-const selectValue = document.querySelector("[data-selecct-value]");
+const selectValue = document.querySelector("[data-select-value]");
 const filterBtn = document.querySelectorAll("[data-filter-btn]");
 
 select.addEventListener("click", function () { elementToggleFunc(this); });
@@ -139,7 +139,7 @@ form.addEventListener("submit", function(e) {
   const email = form.querySelector('input[name="email"]').value;
   const message = form.querySelector('textarea[name="message"]').value;
   // Format pesan WhatsApp
-  const waMessage = `Halo, saya ingin memesan jasa.\nNama: ${name}\nEmail: ${email}\nPesan: ${message}`;
+  const waMessage = `Halo, saya ingin memesan jasa atau menjalin kerjasama.\nNama: ${name}\nEmail: ${email}\nPesan: ${message}`;
   // Encode pesan untuk URL
   const encodedMsg = encodeURIComponent(waMessage);
   // Redirect ke wa.me
@@ -172,12 +172,17 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
 // Auto show all project-item on portfolio page load
 window.addEventListener('DOMContentLoaded', function() {
-  // Temukan tombol filter 'All' dan trigger klik
-  const allBtn = document.querySelector('.filter-item button[data-filter-btn].active');
-  if (allBtn) {
-    allBtn.click();
-  } else {
-    // fallback: trigger filterFunc('all') langsung jika tombol tidak ditemukan
-    if (typeof filterFunc === 'function') filterFunc('all');
-  }
+  // Wait a bit to ensure all elements are loaded
+  setTimeout(function() {
+    // Trigger filter function to show all items by default
+    if (typeof filterFunc === 'function') {
+      filterFunc('all');
+    }
+    
+    // Also trigger the "All" button to be active
+    const allBtn = document.querySelector('.filter-item button[data-filter-btn]');
+    if (allBtn && allBtn.textContent.toLowerCase() === 'all') {
+      allBtn.classList.add('active');
+    }
+  }, 100);
 });
