@@ -80,14 +80,19 @@ const filterItems = document.querySelectorAll("[data-filter-item]");
 
 const filterFunc = function (selectedValue) {
 
+  console.log('Filtering with value:', selectedValue);
+
   for (let i = 0; i < filterItems.length; i++) {
 
     if (selectedValue === "all") {
       filterItems[i].classList.add("active");
+      console.log('Added active to item:', i);
     } else if (selectedValue === filterItems[i].dataset.category) {
       filterItems[i].classList.add("active");
+      console.log('Added active to item:', i, 'category:', filterItems[i].dataset.category);
     } else {
       filterItems[i].classList.remove("active");
+      console.log('Removed active from item:', i, 'category:', filterItems[i].dataset.category);
     }
 
   }
