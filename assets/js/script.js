@@ -87,7 +87,7 @@ const filterFunc = function (selectedValue) {
     if (selectedValue === "all") {
       filterItems[i].classList.add("active");
       console.log('Added active to item:', i);
-    } else if (selectedValue === filterItems[i].dataset.category) {
+    } else if (selectedValue === filterItems[i].dataset.category.toLowerCase()) {
       filterItems[i].classList.add("active");
       console.log('Added active to item:', i, 'category:', filterItems[i].dataset.category);
     } else {
