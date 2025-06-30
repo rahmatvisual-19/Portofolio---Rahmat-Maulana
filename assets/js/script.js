@@ -148,7 +148,7 @@ form.addEventListener("submit", function(e) {
   // Encode pesan untuk URL
   const encodedMsg = encodeURIComponent(waMessage);
   // Redirect ke wa.me
-  window.open(`https://wa.me/6282176954751?text=${encodedMsg}`, '_blank');
+  window.open(`https://wa.me/6282184668503?text=${encodedMsg}`, '_blank');
 });
 
 
