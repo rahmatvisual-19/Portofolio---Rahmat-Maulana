@@ -18,7 +18,7 @@
         
         <!-- Logo Minimalis -->
         <div class="hidden md:flex flex-col">
-            <a href="/" class="text-lg font-semibold tracking-tight text-white hover:text-gray-200 transition-colors leading-tight">Perry Wang</a>
+            <a href="/" class="text-lg font-semibold tracking-tight text-white hover:text-gray-200 transition-colors leading-tight">Rahmat Maulana</a>
             <span class="text-[13px] text-zinc-400 font-medium">Product Designer</span>
         </div>
 
