@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+
+/**
+ * File ini sekarang hanya berfungsi sebagai entry point untuk Tailwind CSS.
+ * Semua gaya kustom, animasi, dan modifikasi visual sudah dipindahkan 
+ * ke dalam file portofolio.blade.php agar lebih mudah kamu kelola di satu tempat.
+ */
+
+@theme {
+    --font-sans: 'Inter', sans-serif;
+}
