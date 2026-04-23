@@ -10,6 +10,7 @@
                 <span class="text-zinc-600 text-xs font-bold tracking-[0.2em] uppercase">CONTACT</span>
                 <a href="https://linkedin.com" target="_blank" class="text-zinc-300 hover:text-white transition-colors text-sm font-medium flex gap-1 items-center">LinkedIn <span class="text-xs">↗</span></a>
                 <a href="/resume.pdf" target="_blank" class="text-zinc-300 hover:text-white transition-colors text-sm font-medium flex gap-1 items-center">Resume <span class="text-xs">↗</span></a>
+                <a href="/cv.pdf" target="_blank" class="text-zinc-300 hover:text-white transition-colors text-sm font-medium flex gap-1 items-center">My CV <span class="text-xs">↗</span></a>
             </div>
         </div>
         <div class="flex flex-col items-start md:items-end justify-end mt-8 md:mt-0">
