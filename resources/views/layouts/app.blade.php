@@ -38,7 +38,7 @@
 </head>
 <body class="font-sans antialiased">
 
-    @include('partials.loading')
+
 
     <!-- Navigasi Global disembunyikan karena portofolio sudah memiliki header sendiri -->
     <nav class="hidden fixed top-0 w-full z-[100] flex justify-between items-center p-8 md:px-12 mix-blend-difference pointer-events-none">
