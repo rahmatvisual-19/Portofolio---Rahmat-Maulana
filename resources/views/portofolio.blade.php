@@ -379,6 +379,45 @@
     @keyframes ui-flicker {
         50% { opacity: 0.4; }
     }
+
+    /* --- Form Kustom --- */
+    .form-input {
+        width: 100%;
+        background-color: rgba(10, 10, 10, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 14px 16px;
+        color: #fff;
+        font-family: 'Albert Sans', sans-serif;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+    .form-input:focus {
+        border-color: rgba(79, 142, 247, 0.8);
+        box-shadow: 0 0 0 1px rgba(79, 142, 247, 0.8);
+    }
+    .form-input::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+    }
+    .section-label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.4);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .section-label::before {
+        content: '';
+        display: block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: #fff;
+    }
 </style>
 
 <!-- Background Hitam Gradient Glow -->
@@ -402,11 +441,8 @@
         <!-- GLSL Hills Canvas Container (Tepat berada di belakang teks hero) -->
         <div id="glsl-hills-container" class="absolute inset-0 z-0 pointer-events-none"></div>
 
-        <!-- Overlay gelap agar teks hero tidak tertimpa dotted surface -->
-        <div class="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-b from-[#050505]/80 via-[#050505]/60 to-transparent"></div>
-
         <!-- Hero Content: Typography Layout -->
-        <div class="relative z-10 flex flex-col items-center justify-center text-center pointer-events-none px-4 reveal mt-16 md:-mt-20 w-full">
+        <div class="relative z-10 flex flex-col items-center justify-center text-center pointer-events-none px-4 reveal -mt-16 md:-mt-20 w-full">
             <h1 class="flex flex-col items-center justify-center w-full">
                 <!-- Teks Atas: Italic, Serif (Gloock), lebih tipis -->
                 <span class="italic text-4xl md:text-6xl lg:text-[5rem] font-light font-gloock text-white mb-2 md:mb-4 tracking-wide">
@@ -422,9 +458,9 @@
                 We craft stunning visuals and user - friendly experiences that <br class="hidden md:block"/> help your brand stand out and connect with your audience.
             </p>
 
-            <!-- Animated Generate Button -->
+            <!-- Animated Generate Button (Menuju id="contact" dengan Javascript) -->
             <div class="relative inline-block mt-8 pointer-events-auto">
-                <a href="https://wa.link/425pce" target="_blank" rel="noopener noreferrer" class="ui-anim-btn relative flex items-center justify-center rounded-[24px] px-5 py-2.5 border border-white/20 transition-all duration-400" style="--highlight-hue: 210deg; background: rgba(255,255,255,0.04); backdrop-filter: blur(12px);">
+                <a href="#contact" id="btn-lets-work" class="ui-anim-btn relative flex items-center justify-center rounded-[24px] px-5 py-2.5 border border-white/20 transition-all duration-400" style="--highlight-hue: 210deg; background: rgba(255,255,255,0.04); backdrop-filter: blur(12px);">
                     <svg class="ui-anim-btn-svg mr-2 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"></path>
                     </svg>
@@ -474,8 +510,13 @@
                 <!-- Outer Glow Border -->
                 <div class="absolute inset-0 rounded-[24px] border border-white/10 blur-sm opacity-40 group-hover:opacity-80 transition duration-500"></div>
 
-                <!-- Card -->
+                <!-- Card — design category opens lightbox, dev opens link -->
+                @if($p['category'] === 'design')
+                <div onclick="openCardLightbox('{{ $p['img'] }}', '{{ $p['title'] }}', '{{ $p['company'] }}', '{{ $p['desc'] }}')"
+                     class="block h-full relative rounded-[24px] overflow-hidden bg-[#111111] border border-white/10 p-5 transition-all duration-500 hover:-translate-y-1 hover:bg-[#161616] cursor-none no-underline flex flex-col">
+                @else
                 <a href="#" class="block h-full relative rounded-[24px] overflow-hidden bg-[#111111] border border-white/10 p-5 transition-all duration-500 hover:-translate-y-1 hover:bg-[#161616] cursor-none no-underline flex flex-col">
+                @endif
 
                     <!-- Header -->
                     <div class="flex justify-between items-start mb-6">
@@ -516,16 +557,143 @@
                     <!-- Glow Color Layer -->
                     <div class="absolute inset-0 rounded-[24px] bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none"></div>
 
+                @if($p['category'] === 'design')
+                </div>
+                @else
                 </a>
+                @endif
             </div>
             @endforeach
         </div>
     </section>
 
+</div>
+
+<!-- ===================== CARD LIGHTBOX ===================== -->
+<style>
+    #card-lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        pointer-events: none;
+    }
+
+    #card-lightbox-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0);
+        backdrop-filter: blur(0px);
+        transition: background 0.5s ease, backdrop-filter 0.5s ease;
+    }
+
+    #card-lightbox.is-open #card-lightbox-backdrop {
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(24px);
+    }
+
+    #card-lightbox-modal {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        max-width: 960px;
+        background: #0c0c0c;
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 28px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 60px 120px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.04) inset;
+
+        /* State awal */
+        opacity: 0;
+        transform: scale(0.88) translateY(32px);
+        transition:
+            opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+            transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @media (min-width: 768px) {
+        #card-lightbox-modal { flex-direction: row; }
+        #card-lightbox { padding: 32px; }
+    }
+
+    #card-lightbox.is-open #card-lightbox-modal {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+    /* Image zoom on open */
+    #card-lightbox-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        min-height: 260px;
+        transform: scale(1.08);
+        transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #card-lightbox.is-open #card-lightbox-img {
+        transform: scale(1);
+    }
+
+    /* Stagger content items */
+    .lb-stagger {
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #card-lightbox.is-open .lb-stagger {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
+<div id="card-lightbox">
+    <!-- Backdrop -->
+    <div id="card-lightbox-backdrop" onclick="closeCardLightbox()"></div>
+
+    <!-- Modal -->
+    <div id="card-lightbox-modal">
+
+        <!-- Gambar -->
+        <div class="w-full md:w-[55%] relative overflow-hidden" style="min-height: 260px;">
+            <img id="card-lightbox-img" src="" alt="">
+            <!-- Gradient kanan (desktop) -->
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0c0c0c] hidden md:block pointer-events-none"></div>
+            <!-- Gradient bawah (mobile) -->
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0c0c0c] via-transparent to-transparent md:hidden pointer-events-none"></div>
+        </div>
+
+        <!-- Detail -->
+        <div class="w-full md:w-[45%] p-8 md:p-12 flex flex-col justify-center relative gap-0">
+
+            <!-- Close button -->
+            <button onclick="closeCardLightbox()" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 hover:text-white hover:bg-white/10 transition-all cursor-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+
+            <span class="lb-stagger text-[10px] font-bold tracking-[0.25em] uppercase text-blue-400 mb-5 block" style="transition-delay: 0.15s">Design Project</span>
+            <h2 id="card-lightbox-title" class="lb-stagger text-3xl md:text-[2.5rem] font-black tracking-tight text-white font-albert leading-tight mb-2" style="transition-delay: 0.22s"></h2>
+            <p id="card-lightbox-company" class="lb-stagger text-zinc-500 font-jetbrains text-xs mb-5" style="transition-delay: 0.29s"></p>
+            <p id="card-lightbox-desc" class="lb-stagger text-zinc-400 text-sm leading-relaxed mb-8" style="transition-delay: 0.36s"></p>
+
+            <a href="#contact" onclick="closeCardLightbox()" class="lb-stagger inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black text-sm font-bold hover:bg-zinc-100 transition-all w-fit shadow-[0_0_24px_rgba(255,255,255,0.2)] cursor-none" style="transition-delay: 0.43s">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                Discuss This Project
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="relative z-10 text-white selection:bg-white selection:text-black font-albert">
     <!-- OUR FRIENDS SECTION -->
     <section class="py-24 md:py-32 border-t border-white/5 relative overflow-hidden">
         <div class="px-8 md:px-48 mb-12 md:mb-16 reveal">
-            <!-- Teks "Partnership" Dihapus -->
             <h2 class="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-none font-albert">Selected Clients.</h2>
             <p class="font-gloock text-xl text-zinc-400 mt-4 italic">People I've worked with</p>
         </div>
@@ -565,6 +733,120 @@
         </div>
     </section>
 
+    <!-- CONTACT / CTA SECTION -->
+    <section id="contact" class="py-24 md:py-32 border-t border-white/5 relative overflow-hidden px-6 md:px-16 lg:px-48 max-w-[1600px] mx-auto reveal">
+
+        <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start relative z-10 w-full">
+            
+            <!-- Left: CTA Text -->
+            <div class="lg:col-span-5 space-y-8">
+                <div>
+                    <div class="section-label mb-5">LET'S BUILD TOGETHER</div>
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-none font-albert text-white mb-6">
+                        Have a project in <br class="hidden md:block"/>
+                        <span class="italic text-zinc-400 font-gloock font-normal lowercase pr-2">mind?</span>
+                    </h2>
+                    <p class="font-albert text-[15px] text-zinc-400 leading-relaxed max-w-sm">
+                        I'm available for freelance projects and consulting. Whether you need a full product build, a design system, or performance optimization — let's make it exceptional.
+                    </p>
+                </div>
+
+                <!-- Contact Options -->
+                <div class="space-y-4">
+                    <a href="mailto:hello@example.com" class="flex items-center gap-4 p-4 rounded-[20px] bg-white/[0.02] border border-white/10 hover:bg-white/[0.05] transition-all group">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-[#4F8EF7]/10 text-[#4F8EF7]">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <div>
+                            <div class="font-jetbrains text-[10px] text-zinc-500 uppercase tracking-widest">Email</div>
+                            <div class="font-albert text-[14px] font-semibold text-white group-hover:text-[#4F8EF7] transition-colors">hello@example.com</div>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="flex items-center gap-4 p-4 rounded-[20px] bg-white/[0.02] border border-white/10 hover:bg-white/[0.05] transition-all group">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-[#F472B6]/10 text-[#F472B6]">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke-width="2"></rect>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></line>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-jetbrains text-[10px] text-zinc-500 uppercase tracking-widest">Instagram</div>
+                            <div class="font-albert text-[14px] font-semibold text-white group-hover:text-[#F472B6] transition-colors">@yourhandle</div>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="flex items-center gap-4 p-4 rounded-[20px] bg-white/[0.02] border border-white/10 hover:bg-white/[0.05] transition-all group">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-[#22D3EE]/10 text-[#22D3EE]">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        </div>
+                        <div>
+                            <div class="font-jetbrains text-[10px] text-zinc-500 uppercase tracking-widest">GitHub</div>
+                            <div class="font-albert text-[14px] font-semibold text-white group-hover:text-[#22D3EE] transition-colors">github.com/yourhandle</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Availability -->
+                <div class="p-5 rounded-[20px] bg-green-500/5 border border-green-500/20 flex items-center gap-3">
+                    <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse flex-shrink-0"></div>
+                    <div>
+                        <div class="font-albert text-[14px] font-semibold text-white">Currently available</div>
+                        <div class="font-jetbrains text-[11px] text-zinc-500 mt-1">Response within 24h</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Contact Form -->
+            <div class="lg:col-span-7">
+                <div class="bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-[28px] p-8 md:p-10 shadow-2xl">
+                    <div class="mb-8">
+                        <h3 class="font-albert text-[24px] font-bold text-white mb-2">Start a conversation</h3>
+                        <p class="font-albert text-[14px] text-zinc-400">Tell me about your project and I'll get back to you via WhatsApp.</p>
+                    </div>
+
+                    <form id="contactForm" class="space-y-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div>
+                                <label class="font-jetbrains text-[11px] text-zinc-500 uppercase tracking-widest block mb-2">Your Name</label>
+                                <input type="text" id="wa-name" placeholder="Jane Smith" required class="form-input">
+                            </div>
+                            <div>
+                                <label class="font-jetbrains text-[11px] text-zinc-500 uppercase tracking-widest block mb-2">Email Address</label>
+                                <input type="email" id="wa-email" placeholder="jane@company.com" required class="form-input">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="font-jetbrains text-[11px] text-zinc-500 uppercase tracking-widest block mb-2">Project Type</label>
+                            <select id="wa-project" required class="form-input appearance-none cursor-pointer">
+                                <option value="" disabled selected>Select project type</option>
+                                <option value="Developer">Developer</option>
+                                <option value="Desain">Desain</option>
+                                <option value="General">General</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="font-jetbrains text-[11px] text-zinc-500 uppercase tracking-widest block mb-2">Tell me about your project</label>
+                            <textarea id="wa-desc" placeholder="Describe what you're building, your timeline, and what success looks like..." rows="5" required class="form-input resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-white text-black font-bold font-albert text-[15px] py-4 rounded-[14px] hover:bg-gray-200 transition-all hover:scale-[1.02] flex items-center justify-center gap-2">
+                            Send Message via WhatsApp
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                        </button>
+                        
+                        <p class="font-jetbrains text-[10px] text-zinc-500 text-center mt-4">
+                            You will be redirected to WhatsApp.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- FOOTER SECTION -->
     @include('partials.footer')
 </div>
@@ -573,6 +855,98 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 
 <script>
+    // =============================================
+    // CARD LIGHTBOX (Design Category) — Premium
+    // =============================================
+    function openCardLightbox(img, title, company, desc) {
+        const lb = document.getElementById('card-lightbox');
+        if (!lb) return;
+
+        document.getElementById('card-lightbox-img').src = img;
+        document.getElementById('card-lightbox-title').textContent = title;
+        document.getElementById('card-lightbox-company').textContent = company;
+        document.getElementById('card-lightbox-desc').textContent = desc;
+
+        lb.style.pointerEvents = 'auto';
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                lb.classList.add('is-open');
+            });
+        });
+
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCardLightbox() {
+        const lb = document.getElementById('card-lightbox');
+        if (!lb) return;
+
+        lb.classList.remove('is-open');
+        lb.style.pointerEvents = 'none';
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeCardLightbox();
+    });
+</script>
+
+<script>
+    // =============================================
+    // WHATSAPP REDIRECT LOGIC
+    // =============================================
+    document.addEventListener('DOMContentLoaded', () => {
+        const contactForm = document.getElementById('contactForm');
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('wa-name').value;
+                const email = document.getElementById('wa-email').value;
+                const project = document.getElementById('wa-project').value;
+                const desc = document.getElementById('wa-desc').value;
+
+                // Format pesan sesuai permintaan
+                const textMsg = `Name : ${name}\nEmail : ${email}\nProject type : ${project}\nTell me about your project : ${desc}`;
+                const encodedText = encodeURIComponent(textMsg);
+
+                /*
+                 * CATATAN:
+                 * Anda memberikan wa.link/i787cy. Namun link tipe "wa.link" 
+                 * TIDAK MENDUKUNG penyisipan teks dinamis dari formulir web.
+                 * * Agar pesan terisi otomatis, gunakan link API resmi WhatsApp (wa.me) di bawah ini.
+                 * SILAKAN GANTI NOMOR '6281234567890' DENGAN NOMOR WA ASLI ANDA.
+                 */
+                const nomorWhatsApp = '6281234567890'; // <-- GANTI NOMOR INI
+                const waUrl = `https://wa.me/${nomorWhatsApp}?text=${encodedText}`;
+
+                // Buka tab WhatsApp
+                window.open(waUrl, '_blank');
+            });
+        }
+
+        // --- Smooth Scroll untuk Tombol "Let's Work Together" ---
+        const btnLetsWork = document.getElementById('btn-lets-work');
+        if (btnLetsWork) {
+            btnLetsWork.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.getElementById('contact');
+                if (target) {
+                    // Karena kita menggunakan Lenis di app.js untuk smooth scroll global
+                    // Jika lenis ada, gunakan animasinya
+                    if (window.lenis) {
+                        window.lenis.scrollTo(target, { duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+                    } else {
+                        // Fallback browser native scroll
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        }
+    });
+
     // =============================================
     // DOTTED SURFACE BACKGROUND (Three.js)
     // =============================================
@@ -806,7 +1180,6 @@
 
                 // ============================================
                 // FASE 1: ANIMASI KELUAR SEMUA ELEMEN YANG TAMPIL
-                // (Mencegah patah/snap pada grid layout)
                 // ============================================
                 currentlyVisible.forEach(item => {
                     item.style.transitionDelay = '0ms'; 

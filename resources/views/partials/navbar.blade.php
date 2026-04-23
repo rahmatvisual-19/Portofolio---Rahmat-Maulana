@@ -51,6 +51,9 @@
                 <a href="{{ route('info') }}" class="relative z-10 px-6 py-2 rounded-full text-[13px] font-medium transition-colors duration-300 {{ request()->routeIs('info') ? 'active text-white' : 'text-zinc-400 hover:text-white' }}">
                     Info
                 </a>
+                <a href="{{ route('gallery') }}" class="relative z-10 px-6 py-2 rounded-full text-[13px] font-medium transition-colors duration-300 {{ request()->routeIs('gallery') ? 'active text-white' : 'text-zinc-400 hover:text-white' }}">
+                    Gallery
+                </a>
             </nav>
         </div>
 
@@ -65,6 +68,11 @@
                 </a>
                 <a href="/resume.pdf" download class="group relative text-[13px] font-medium text-zinc-300 hover:text-white transition-all duration-300 flex items-center gap-1.5 hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">
                     Resume <span class="font-light text-zinc-500 group-hover:text-white transition-colors duration-300 text-sm">↗</span>
+                    <!-- Garis Bawah Dinamis -->
+                    <span class="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-white transition-all duration-300 group-hover:w-full group-hover:shadow-[0_0_8px_rgba(255,255,255,0.9)] rounded-full"></span>
+                </a>
+                <a href="/cv.pdf" download class="group relative text-[13px] font-medium text-zinc-300 hover:text-white transition-all duration-300 flex items-center gap-1.5 hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">
+                    My CV <span class="font-light text-zinc-500 group-hover:text-white transition-colors duration-300 text-sm">↗</span>
                     <!-- Garis Bawah Dinamis -->
                     <span class="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-white transition-all duration-300 group-hover:w-full group-hover:shadow-[0_0_8px_rgba(255,255,255,0.9)] rounded-full"></span>
                 </a>
@@ -83,6 +91,9 @@
                 </a>
                 <a href="/resume.pdf" download class="px-4 py-3 rounded-xl hover:bg-white/10 text-sm font-medium flex justify-between items-center transition-colors text-white/90">
                     Resume <span class="opacity-50">↗</span>
+                </a>
+                <a href="/cv.pdf" download class="px-4 py-3 rounded-xl hover:bg-white/10 text-sm font-medium flex justify-between items-center transition-colors text-white/90">
+                    My CV <span class="opacity-50">↗</span>
                 </a>
             </div>
         </div>

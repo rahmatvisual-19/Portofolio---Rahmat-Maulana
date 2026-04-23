@@ -80,16 +80,16 @@ Route::get('/admin/experience/{id}/edit', function ($id) {
 // ROUTE UNTUK ADMIN PANEL FRIENDS
 // ==========================================
 
-Route::get('/admin/friends', function () {
-    return view('admin.friends.index');
+Route::get('/admin/tools', function () {
+    return view('admin.tools.index');
 });
 
-Route::get('/admin/friends/create', function () {
-    return view('admin.friends.create');
+Route::get('/admin/tools/create', function () {
+    return view('admin.tools.create');
 });
 
-Route::get('/admin/friends/{id}/edit', function ($id) {
-    return view('admin.friends.edit');
+Route::get('/admin/tools/{id}/edit', function ($id) {
+    return view('admin.tools.edit');
 });
 
 // ==========================================
@@ -98,3 +98,10 @@ Route::get('/admin/friends/{id}/edit', function ($id) {
 Route::get('/login', function () {
     return view('admin.login');
 })->name('login');
+
+// ==========================================
+// ROUTE UNTUK Gallery
+// ==========================================
+Route::get('/gallery', function () {
+    return view('gallery');
+})->name('gallery');
