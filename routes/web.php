@@ -1,107 +1,98 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PublicController;
 
-Route::view('/', 'portofolio')->name('portofolio');
-Route::view('/info', 'info')->name('info');
+// ==========================================
+// FRONTEND ROUTES (Sekarang menggunakan Controller)
+// ==========================================
 
-// Alias agar akses /portofolio juga tetap bekerja
+// Halaman Utama: Mengambil data Project & Client dari DB
+Route::get('/', [PublicController::class, 'index'])->name('portofolio');
+
+// Halaman Info: Mengambil data Story, Experience, & Tools dari DB
+Route::get('/info', [PublicController::class, 'info'])->name('info');
+
+// Halaman Gallery: Mengambil data foto dari DB
+Route::get('/gallery', [PublicController::class, 'gallery'])->name('gallery');
+
+// Tetap simpan redirect ini untuk SEO
 Route::redirect('/portofolio', '/', 301);
 
-// ==========================================
-// ROUTE UNTUK ADMIN PANEL SHOWCASE
-// ==========================================
-
-// 1. Halaman Index (Tabel Daftar Showcase)
-Route::get('/admin/showcase', function () {
-    return view('admin.showcase.index');
-});
-
-// 2. Halaman Create (Form Tambah Data)
-Route::get('/admin/showcase/create', function () {
-    return view('admin.showcase.create');
-});
-
-// 3. Halaman Edit (Form Ubah Data)
-// {id} adalah parameter untuk ID project nantinya (contoh: /admin/showcase/1/edit)
-Route::get('/admin/showcase/{id}/edit', function ($id) {
-    return view('admin.showcase.edit');
-});
 
 // ==========================================
-// ROUTE UNTUK ADMIN PANEL SELECTED CLIENTS
+// AUTHENTICATION ROUTES (Tetap sama untuk sementara)
 // ==========================================
+Route::get('/login', fn() => view('admin.login'))->name('login');
 
-Route::get('/admin/clients', function () {
-    return view('admin.client.index');
+Route::post('/login', function () {
+    $email    = request('email');
+    $password = request('password');
+
+    if ($email === env('ADMIN_EMAIL', 'admin@example.com') && $password === env('ADMIN_PASSWORD', 'password')) {
+        session(['admin_logged_in' => true]);
+        return redirect('/admin/work/showcase');
+    }
+
+    return back()->withErrors(['email' => 'Email atau password salah.'])->withInput();
 });
 
-Route::get('/admin/clients/create', function () {
-    return view('admin.client.create');
-});
+Route::post('/logout', function () {
+    session()->forget('admin_logged_in');
+    return redirect('/');
+})->name('logout');
 
-Route::get('/admin/clients/{id}/edit', function ($id) {
-    return view('admin.client.edit');
-});
-
-// ==========================================
-// ROUTE UNTUK ADMIN PANEL ABOUT ME (INFO)
-// ==========================================
-
-Route::get('/admin/about', function () {
-    return view('admin.about.index');
-});
-
-Route::get('/admin/about/create', function () {
-    return view('admin.about.create');
-});
-
-Route::get('/admin/about/{id}/edit', function ($id) {
-    return view('admin.about.edit');
-});
 
 // ==========================================
-// ROUTE UNTUK ADMIN PANEL EXPERIENCE
+// ADMIN ROUTES
 // ==========================================
+// (Route admin ini nantinya juga akan kita hubungkan ke Controller masing-masing)
+Route::prefix('admin')->group(function () {
 
-Route::get('/admin/experience', function () {
-    return view('admin.experience.index');
+    Route::get('/work/showcase', function () {
+        if (!session('admin_logged_in')) return redirect('/login');
+        return view('admin.work.showcase');
+    })->name('admin.showcase');
+
+    Route::get('/work/selected-client', function () {
+        if (!session('admin_logged_in')) return redirect('/login');
+        return view('admin.work.selected-client');
+    })->name('admin.clients');
+
+    Route::get('/info/about-me', function () {
+        if (!session('admin_logged_in')) return redirect('/login');
+        return view('admin.info.about-me');
+    })->name('admin.about');
+
+    Route::get('/info/experience', function () {
+        if (!session('admin_logged_in')) return redirect('/login');
+        return view('admin.info.experience');
+    })->name('admin.experience');
+
+    Route::get('/info/tools', function () {
+        if (!session('admin_logged_in')) return redirect('/login');
+        return view('admin.info.tools');
+    })->name('admin.tools');
+
+    Route::get('/gallery', function () {
+        if (!session('admin_logged_in')) return redirect('/login');
+        return view('admin.gallery.index');
+    })->name('admin.gallery');
+
+    Route::get('/navbar/linkedin', function () {
+        if (!session('admin_logged_in')) return redirect('/login');
+        return view('admin.navbar.linkedin');
+    })->name('admin.navbar.linkedin');
+
+    Route::get('/navbar/resume', function () {
+        if (!session('admin_logged_in')) return redirect('/login');
+        return view('admin.navbar.resume');
+    })->name('admin.navbar.resume');
+
+    Route::get('/navbar/cv', function () {
+        if (!session('admin_logged_in')) return redirect('/login');
+        return view('admin.navbar.cv');
+    })->name('admin.navbar.cv');
+
+    Route::redirect('/', '/admin/work/showcase');
 });
-
-Route::get('/admin/experience/create', function () {
-    return view('admin.experience.create');
-});
-
-Route::get('/admin/experience/{id}/edit', function ($id) {
-    return view('admin.experience.edit');
-});
-
-// ==========================================
-// ROUTE UNTUK ADMIN PANEL FRIENDS
-// ==========================================
-
-Route::get('/admin/tools', function () {
-    return view('admin.tools.index');
-});
-
-Route::get('/admin/tools/create', function () {
-    return view('admin.tools.create');
-});
-
-Route::get('/admin/tools/{id}/edit', function ($id) {
-    return view('admin.tools.edit');
-});
-
-// ==========================================
-// ROUTE UNTUK LOGIN ADMIN
-// ==========================================
-Route::get('/login', function () {
-    return view('admin.login');
-})->name('login');
-
-// ==========================================
-// ROUTE UNTUK Gallery
-// ==========================================
-Route::get('/gallery', function () {
-    return view('gallery');
-})->name('gallery');

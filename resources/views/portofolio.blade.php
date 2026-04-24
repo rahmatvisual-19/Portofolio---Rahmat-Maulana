@@ -5,6 +5,7 @@
     PORTFOLIO ULTIMATE EDITION - RESPONSIVE UPDATE
     - Navbar Kiri & Menu @ Dropdown
     - Layout Showcase Petak untuk Mobile
+    - Added: Morph Animation untuk Card Lightbox
 -->
 
 <style>
@@ -290,9 +291,9 @@
     .animated-button:hover .text { transform: translateX(12px); }
 
     /* ===== Minecraft Cursor & Effects ===== */
-    #minecraft-cursor { position: fixed; top: 0; left: 0; width: 44px; height: 44px; background-image: url('https://cur.cursors-4u.net/games/gam-13/gam1282.png'); background-size: contain; background-repeat: no-repeat; pointer-events: none; z-index: 10000; transform: rotate(-15deg); filter: drop-shadow(0 0 8px var(--accent-blue-glow)); }
-    #cursor-glow { position: fixed; width: 160px; height: 160px; background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 40%, transparent 75%); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.4s ease, height 0.4s ease; }
-    .particle { position: fixed; background: radial-gradient(circle, #fff 0%, var(--accent-blue) 60%, transparent 100%); border-radius: 50%; pointer-events: none; z-index: 9998; box-shadow: 0 0 10px rgba(59, 130, 246, 0.8); animation: particleLife 0.8s forwards ease-out; }
+    #minecraft-cursor { position: fixed; top: 0; left: 0; width: 44px; height: 44px; background-image: url('https://cur.cursors-4u.net/games/gam-13/gam1282.png'); background-size: contain; background-repeat: no-repeat; pointer-events: none; z-index: 999999; transform: rotate(-15deg); filter: drop-shadow(0 0 8px var(--accent-blue-glow)); }
+    #cursor-glow { position: fixed; width: 160px; height: 160px; background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 40%, transparent 75%); border-radius: 50%; pointer-events: none; z-index: 999998; transform: translate(-50%, -50%); transition: width 0.4s ease, height 0.4s ease; }
+    .particle { position: fixed; background: radial-gradient(circle, #fff 0%, var(--accent-blue) 60%, transparent 100%); border-radius: 50%; pointer-events: none; z-index: 999997; box-shadow: 0 0 10px rgba(59, 130, 246, 0.8); animation: particleLife 0.8s forwards ease-out; }
     @keyframes particleLife { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0) translateY(20px); } }
 
     /* --- Premium Blur & Scale Reveal Animasi Scroll --- */
@@ -435,20 +436,18 @@
     <!-- HEADER NAVBAR -->
     @include('partials.navbar')
 
-    <!-- HERO SECTION (Telah Diperbarui dengan Desain Tipografi Sentris & Background GLSL) -->
+    <!-- HERO SECTION -->
     <section class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden pt-32 md:pt-0">
         
-        <!-- GLSL Hills Canvas Container (Tepat berada di belakang teks hero) -->
+        <!-- GLSL Hills Canvas Container -->
         <div id="glsl-hills-container" class="absolute inset-0 z-0 pointer-events-none"></div>
 
-        <!-- Hero Content: Typography Layout -->
+        <!-- Hero Content -->
         <div class="relative z-10 flex flex-col items-center justify-center text-center pointer-events-none px-4 reveal -mt-16 md:-mt-20 w-full">
             <h1 class="flex flex-col items-center justify-center w-full">
-                <!-- Teks Atas: Italic, Serif (Gloock), lebih tipis -->
                 <span class="italic text-4xl md:text-6xl lg:text-[5rem] font-light font-gloock text-white mb-2 md:mb-4 tracking-wide">
                     Designs That Speak
                 </span>
-                <!-- Teks Bawah: Bold, Sans-Serif (Albert), lebih besar & tebal -->
                 <span class="font-bold text-5xl md:text-7xl lg:text-[6.5rem] font-albert text-white tracking-tight leading-none">
                     Louder Than Words
                 </span>
@@ -458,7 +457,6 @@
                 We craft stunning visuals and user - friendly experiences that <br class="hidden md:block"/> help your brand stand out and connect with your audience.
             </p>
 
-            <!-- Animated Generate Button (Menuju id="contact" dengan Javascript) -->
             <div class="relative inline-block mt-8 pointer-events-auto">
                 <a href="#contact" id="btn-lets-work" class="ui-anim-btn relative flex items-center justify-center rounded-[24px] px-5 py-2.5 border border-white/20 transition-all duration-400" style="--highlight-hue: 210deg; background: rgba(255,255,255,0.04); backdrop-filter: blur(12px);">
                     <svg class="ui-anim-btn-svg mr-2 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
@@ -471,7 +469,7 @@
 
     </section>
 
-    <!-- WORK SECTION (Tampilan Dikembalikan ke Model Grid 4 Kolom) -->
+    <!-- WORK SECTION -->
     <section id="work" class="px-6 md:px-32 lg:px-48 py-24 md:py-32 border-t border-white/5 relative">
         <div class="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 md:mb-20 reveal gap-8 text-center md:text-left">
             <div class="w-full md:w-auto">
@@ -479,7 +477,6 @@
                 <p class="font-gloock text-xl text-zinc-400 mt-4 italic">Stories behind the screens</p>
             </div>
             
-            <!-- Pill-style navigation toggle dengan penambahan data-filter -->
             <div class="flex gap-2 p-1.5 bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-full self-center md:self-end" id="filter-buttons">
                 <button data-filter="all" class="filter-btn px-6 py-2 rounded-full text-[13px] font-jetbrains bg-white/10 text-white transition-all shadow-sm">All</button>
                 <button data-filter="design" class="filter-btn px-6 py-2 rounded-full text-[13px] font-jetbrains text-white/50 hover:text-white hover:bg-white/5 transition-all">Design</button>
@@ -487,10 +484,8 @@
             </div>
         </div>
 
-        <!-- Perubahan Grid: Menggunakan class showcase-grid agar di mobile membentuk 2 Baris Scrollable -->
         <div class="showcase-grid md:grid-cols-2 lg:grid-cols-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none gap-6 md:gap-8 transition-all duration-500 pb-8 md:pb-0 hide-scrollbar -mx-6 px-6 md:mx-0 md:px-0" id="projects-grid">
             @php
-                // Menambahkan data proyek menjadi 8 agar pas 2 baris (4 per baris) beserta kategorinya
                 $projects = [
                     ['category' => 'design', 'title' => 'Nexus', 'company' => 'Google, \'23', 'desc' => 'Desain ekosistem.', 'img' => 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200'],
                     ['category' => 'dev', 'title' => 'Aether', 'company' => 'Discord, \'22', 'desc' => 'Arsitektur backend.', 'img' => 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?q=80&w=1200'],
@@ -504,24 +499,21 @@
             @endphp
 
             @foreach($projects as $index => $p)
-            <!-- Penyesuaian class Item: Lebar w-full mengikuti Grid -->
             <div class="project-item relative group reveal transition-all duration-500 w-full snap-center md:snap-align-none" data-category="{{ $p['category'] }}" style="transition-delay: {{ $index * 100 }}ms">
                 
-                <!-- Outer Glow Border -->
                 <div class="absolute inset-0 rounded-[24px] border border-white/10 blur-sm opacity-40 group-hover:opacity-80 transition duration-500"></div>
 
-                <!-- Card — design category opens lightbox, dev opens link -->
-                @if($p['category'] === 'design')
-                <div onclick="openCardLightbox('{{ $p['img'] }}', '{{ $p['title'] }}', '{{ $p['company'] }}', '{{ $p['desc'] }}')"
+                <!-- Perhatikan penggunaan "this" dan "data-attributes" untuk menghindari error karakter kutip -->
+                <div onclick="openCardLightbox(this)"
+                     data-img="{{ $p['img'] }}"
+                     data-title="{{ $p['title'] }}"
+                     data-company="{{ $p['company'] }}"
+                     data-desc="{{ $p['desc'] }}"
+                     data-category="{{ $p['category'] }}"
                      class="block h-full relative rounded-[24px] overflow-hidden bg-[#111111] border border-white/10 p-5 transition-all duration-500 hover:-translate-y-1 hover:bg-[#161616] cursor-none no-underline flex flex-col">
-                @else
-                <a href="#" class="block h-full relative rounded-[24px] overflow-hidden bg-[#111111] border border-white/10 p-5 transition-all duration-500 hover:-translate-y-1 hover:bg-[#161616] cursor-none no-underline flex flex-col">
-                @endif
 
-                    <!-- Header -->
                     <div class="flex justify-between items-start mb-6">
                         <div class="pr-2">
-                            <!-- Ukuran teks disesuaikan sedikit agar pas dengan lebar 4 kolom -->
                             <h3 class="text-xl md:text-2xl font-bold tracking-tight text-white mb-1 font-albert">
                                 {{ $p['title'] }}
                             </h3>
@@ -531,7 +523,6 @@
                             </p>
                         </div>
 
-                        <!-- Arrow -->
                         <img 
                             src="https://cdn.prod.website-files.com/63dcb6e1a80e9454b630f4c4/641284285486aaab07feafaa_icon-arrow-project.svg"
                             alt="Arrow"
@@ -539,158 +530,53 @@
                         />
                     </div>
 
-                    <!-- Thumbnail dengan proporsi pas 1350x1080 (rasio 5/4) -->
-                    <div class="relative rounded-xl md:rounded-[18px] overflow-hidden border border-white/10 aspect-[5/4] mt-auto">
+                    <div class="relative rounded-xl md:rounded-[18px] overflow-hidden border border-white/10 aspect-[5/4] mt-auto card-image-container">
                         <img 
                             src="{{ $p['img'] }}"
                             alt="{{ $p['title'] }}"
-                            class="w-full h-full object-cover opacity-100 transition duration-700"
+                            class="w-full h-full object-cover opacity-100 transition duration-700 main-img"
                         />
-
-                        <!-- Gradient overlay -->
                         <div class="absolute inset-0 bg-gradient-to-t from-[#111111]/60 via-transparent to-transparent pointer-events-none"></div>
                     </div>
 
-                    <!-- Glare Effect Overlay -->
                     <div class="glare"></div>
-
-                    <!-- Glow Color Layer -->
                     <div class="absolute inset-0 rounded-[24px] bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none"></div>
 
-                @if($p['category'] === 'design')
                 </div>
-                @else
-                </a>
-                @endif
             </div>
             @endforeach
         </div>
     </section>
 
-</div>
+    <!-- ===================== CARD LIGHTBOX (DENGAN MORPH ANIMATION) ===================== -->
+    <div id="card-lightbox" class="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-500 p-4 md:p-8" onclick="closeCardLightbox()">
 
-<!-- ===================== CARD LIGHTBOX ===================== -->
-<style>
-    #card-lightbox {
-        position: fixed;
-        inset: 0;
-        z-index: 500;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 16px;
-        pointer-events: none;
-    }
+        <button class="absolute top-6 right-6 text-white/80 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-3 rounded-full z-50 cursor-none">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
 
-    #card-lightbox-backdrop {
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, 0);
-        backdrop-filter: blur(0px);
-        transition: background 0.5s ease, backdrop-filter 0.5s ease;
-    }
+        <!-- Modal Content: Dibuang class transform / transition bawaan agar JS bisa menangani morph animasi secara penuh -->
+        <div id="card-lightbox-modal" class="relative w-full max-w-4xl bg-[#0c0c0c] border border-white/10 rounded-[28px] overflow-hidden flex flex-col md:flex-row shadow-[0_60px_120px_rgba(0,0,0,0.8)]" onclick="event.stopPropagation()">
 
-    #card-lightbox.is-open #card-lightbox-backdrop {
-        background: rgba(0, 0, 0, 0.85);
-        backdrop-filter: blur(24px);
-    }
+            <div class="w-full md:w-[55%] relative overflow-hidden" style="min-height:260px;">
+                <img id="card-lightbox-img" src="" alt="" class="w-full h-full object-cover" style="min-height:260px;">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0c0c0c] hidden md:block pointer-events-none"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0c0c0c] via-transparent to-transparent md:hidden pointer-events-none"></div>
+            </div>
 
-    #card-lightbox-modal {
-        position: relative;
-        z-index: 10;
-        width: 100%;
-        max-width: 960px;
-        background: #0c0c0c;
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 28px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0 60px 120px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.04) inset;
-
-        /* State awal */
-        opacity: 0;
-        transform: scale(0.88) translateY(32px);
-        transition:
-            opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-            transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @media (min-width: 768px) {
-        #card-lightbox-modal { flex-direction: row; }
-        #card-lightbox { padding: 32px; }
-    }
-
-    #card-lightbox.is-open #card-lightbox-modal {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-
-    /* Image zoom on open */
-    #card-lightbox-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        min-height: 260px;
-        transform: scale(1.08);
-        transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    #card-lightbox.is-open #card-lightbox-img {
-        transform: scale(1);
-    }
-
-    /* Stagger content items */
-    .lb-stagger {
-        opacity: 0;
-        transform: translateY(16px);
-        transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    #card-lightbox.is-open .lb-stagger {
-        opacity: 1;
-        transform: translateY(0);
-    }
-</style>
-
-<div id="card-lightbox">
-    <!-- Backdrop -->
-    <div id="card-lightbox-backdrop" onclick="closeCardLightbox()"></div>
-
-    <!-- Modal -->
-    <div id="card-lightbox-modal">
-
-        <!-- Gambar -->
-        <div class="w-full md:w-[55%] relative overflow-hidden" style="min-height: 260px;">
-            <img id="card-lightbox-img" src="" alt="">
-            <!-- Gradient kanan (desktop) -->
-            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0c0c0c] hidden md:block pointer-events-none"></div>
-            <!-- Gradient bawah (mobile) -->
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0c0c0c] via-transparent to-transparent md:hidden pointer-events-none"></div>
-        </div>
-
-        <!-- Detail -->
-        <div class="w-full md:w-[45%] p-8 md:p-12 flex flex-col justify-center relative gap-0">
-
-            <!-- Close button -->
-            <button onclick="closeCardLightbox()" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 hover:text-white hover:bg-white/10 transition-all cursor-none">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-
-            <span class="lb-stagger text-[10px] font-bold tracking-[0.25em] uppercase text-blue-400 mb-5 block" style="transition-delay: 0.15s">Design Project</span>
-            <h2 id="card-lightbox-title" class="lb-stagger text-3xl md:text-[2.5rem] font-black tracking-tight text-white font-albert leading-tight mb-2" style="transition-delay: 0.22s"></h2>
-            <p id="card-lightbox-company" class="lb-stagger text-zinc-500 font-jetbrains text-xs mb-5" style="transition-delay: 0.29s"></p>
-            <p id="card-lightbox-desc" class="lb-stagger text-zinc-400 text-sm leading-relaxed mb-8" style="transition-delay: 0.36s"></p>
-
-            <a href="#contact" onclick="closeCardLightbox()" class="lb-stagger inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black text-sm font-bold hover:bg-zinc-100 transition-all w-fit shadow-[0_0_24px_rgba(255,255,255,0.2)] cursor-none" style="transition-delay: 0.43s">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                Discuss This Project
-            </a>
+            <div class="w-full md:w-[45%] p-8 md:p-12 flex flex-col justify-center gap-0 relative">
+                <span id="lb-cat" class="text-[10px] font-bold tracking-[0.25em] uppercase text-blue-400 mb-5 block"></span>
+                <h2 id="card-lightbox-title" class="text-3xl md:text-[2.5rem] font-black tracking-tight text-white font-albert leading-tight mb-2"></h2>
+                <p id="card-lightbox-company" class="text-zinc-500 font-jetbrains text-xs mb-5"></p>
+                <p id="card-lightbox-desc" class="text-zinc-400 text-sm leading-relaxed mb-8"></p>
+                <a href="#contact" onclick="closeCardLightbox()" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black text-sm font-bold hover:bg-zinc-100 transition-all w-fit cursor-none">
+                    Discuss This Project
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="relative z-10 text-white selection:bg-white selection:text-black font-albert">
     <!-- OUR FRIENDS SECTION -->
     <section class="py-24 md:py-32 border-t border-white/5 relative overflow-hidden">
         <div class="px-8 md:px-48 mb-12 md:mb-16 reveal">
@@ -698,7 +584,6 @@
             <p class="font-gloock text-xl text-zinc-400 mt-4 italic">People I've worked with</p>
         </div>
 
-        <!-- Row 1: Moves Right -->
         <div class="marquee-container mb-8 md:mb-12">
             <div class="marquee-content animate-scroll-right">
                 @foreach(range(1, 10) as $i)
@@ -706,7 +591,6 @@
                     <span class="text-lg md:text-xl font-bold tracking-widest uppercase italic">CLIENT_{{ $i }}</span>
                 </div>
                 @endforeach
-                <!-- Duplicate for seamless loop -->
                 @foreach(range(1, 10) as $i)
                 <div class="px-8 py-5 md:px-10 md:py-6 glass-card rounded-2xl flex items-center justify-center min-w-[160px] md:min-w-[200px] opacity-40 hover:opacity-100 transition-opacity">
                     <span class="text-lg md:text-xl font-bold tracking-widest uppercase italic">CLIENT_{{ $i }}</span>
@@ -715,7 +599,6 @@
             </div>
         </div>
 
-        <!-- Row 2: Moves Left -->
         <div class="marquee-container">
             <div class="marquee-content animate-scroll-left">
                 @foreach(range(11, 20) as $i)
@@ -723,7 +606,6 @@
                     <span class="text-lg md:text-xl font-bold tracking-widest uppercase italic">PARTNER_{{ $i }}</span>
                 </div>
                 @endforeach
-                <!-- Duplicate for seamless loop -->
                 @foreach(range(11, 20) as $i)
                 <div class="px-8 py-5 md:px-10 md:py-6 glass-card rounded-2xl flex items-center justify-center min-w-[160px] md:min-w-[200px] opacity-40 hover:opacity-100 transition-opacity">
                     <span class="text-lg md:text-xl font-bold tracking-widest uppercase italic">PARTNER_{{ $i }}</span>
@@ -856,39 +738,93 @@
 
 <script>
     // =============================================
-    // CARD LIGHTBOX (Design Category) — Premium
+    // CARD LIGHTBOX DENGAN MORPH ANIMATION LENGKAP
     // =============================================
-    function openCardLightbox(img, title, company, desc) {
-        const lb = document.getElementById('card-lightbox');
-        if (!lb) return;
+    const cardLightbox = document.getElementById('card-lightbox');
+    const cardLightboxModal = document.getElementById('card-lightbox-modal');
+    
+    // Variabel untuk menyimpan element dan posisi asal
+    let activeCardEl = null;
+    let morphOriginX = 0;
+    let morphOriginY = 0;
 
-        document.getElementById('card-lightbox-img').src = img;
-        document.getElementById('card-lightbox-title').textContent = title;
-        document.getElementById('card-lightbox-company').textContent = company;
-        document.getElementById('card-lightbox-desc').textContent = desc;
+    // Fungsi sekarang hanya menerima element 'el'
+    window.openCardLightbox = function(el) {
+        
+        // --- 1. Tangkap Elemen & Koordinat ---
+        activeCardEl = el;
+        const rect = activeCardEl.getBoundingClientRect();
+        
+        // Kalkulasi jarak dari titik tengah layar ke titik tengah card
+        const viewportCenterX = window.innerWidth / 2;
+        const viewportCenterY = window.innerHeight / 2;
+        const cardCenterX = rect.left + (rect.width / 2);
+        const cardCenterY = rect.top + (rect.height / 2);
+        
+        morphOriginX = cardCenterX - viewportCenterX;
+        morphOriginY = cardCenterY - viewportCenterY;
 
-        lb.style.pointerEvents = 'auto';
+        // --- 2. Update Konten dengan mengambil dari Data Attributes ---
+        document.getElementById('card-lightbox-img').src = el.getAttribute('data-img');
+        document.getElementById('card-lightbox-title').textContent = el.getAttribute('data-title');
+        document.getElementById('card-lightbox-company').textContent = el.getAttribute('data-company');
+        document.getElementById('card-lightbox-desc').textContent = el.getAttribute('data-desc');
+        document.getElementById('lb-cat').textContent = el.getAttribute('data-category') + ' project';
 
+        // --- 3. Set Posisi & Dimensi Awal Modal (Untuk ilusi morphing dari posisi klik) ---
+        cardLightboxModal.style.transition = 'none'; // Matikan transisi untuk inisialisasi instan
+        cardLightboxModal.style.transform = `translate(${morphOriginX}px, ${morphOriginY}px) scale(0.2)`;
+        cardLightboxModal.style.opacity = '0';
+        cardLightboxModal.style.borderRadius = '60px'; // Set radius agar mirip card saat membesar
+
+        // --- 4. Tampilkan Backdrop dan Sembunyikan Card aslinya (Ilusi berubah wujud) ---
+        cardLightbox.classList.remove('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = 'hidden';
+        
+        activeCardEl.style.transition = 'opacity 0.2s ease';
+        activeCardEl.style.opacity = '0';
+
+        // --- 5. Jalankan Transisi Morph (Ke arah tengah) ---
+        // Request animation frame memastikan CSS diletakkan dulu sebelum transisi dibaca browser
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
-                lb.classList.add('is-open');
+                // Beri pengaturan transisi penuh (ease cubic yang sangat mulus)
+                cardLightboxModal.style.transition = 'all 0.6s cubic-bezier(0.25, 1, 0.2, 1)';
+                cardLightboxModal.style.transform = 'translate(0px, 0px) scale(1)';
+                cardLightboxModal.style.opacity = '1';
+                cardLightboxModal.style.borderRadius = '28px'; // Kembali ke default styling Modal Tailwind Anda
             });
         });
+    };
 
-        document.body.style.overflow = 'hidden';
-    }
+    window.closeCardLightbox = function() {
+        
+        // --- 1. Jalankan Transisi Morph terbalik (Kembali ke card origin) ---
+        cardLightboxModal.style.transform = `translate(${morphOriginX}px, ${morphOriginY}px) scale(0.2)`;
+        cardLightboxModal.style.opacity = '0';
+        cardLightboxModal.style.borderRadius = '60px';
 
-    function closeCardLightbox() {
-        const lb = document.getElementById('card-lightbox');
-        if (!lb) return;
-
-        lb.classList.remove('is-open');
-        lb.style.pointerEvents = 'none';
+        cardLightbox.classList.add('opacity-0', 'pointer-events-none');
         document.body.style.overflow = '';
-    }
+        
+        // --- 2. Kembalikan Visibilitas Card Asli sebelum modal benar-benar tertutup ---
+        if (activeCardEl) {
+            setTimeout(() => {
+                activeCardEl.style.opacity = '1';
+                activeCardEl = null; // Reset
+            }, 300); // 300ms agar terjadi hand-off transisi yang halus
+        }
+
+        // --- 3. Bersihkan sisa gambar ---
+        setTimeout(() => { 
+            document.getElementById('card-lightbox-img').src = ''; 
+        }, 600);
+    };
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeCardLightbox();
+        if (e.key === 'Escape' && !cardLightbox.classList.contains('opacity-0')) {
+            closeCardLightbox();
+        }
     });
 </script>
 
@@ -908,38 +844,25 @@
                 const project = document.getElementById('wa-project').value;
                 const desc = document.getElementById('wa-desc').value;
 
-                // Format pesan sesuai permintaan
                 const textMsg = `Name : ${name}\nEmail : ${email}\nProject type : ${project}\nTell me about your project : ${desc}`;
                 const encodedText = encodeURIComponent(textMsg);
 
-                /*
-                 * CATATAN:
-                 * Anda memberikan wa.link/i787cy. Namun link tipe "wa.link" 
-                 * TIDAK MENDUKUNG penyisipan teks dinamis dari formulir web.
-                 * * Agar pesan terisi otomatis, gunakan link API resmi WhatsApp (wa.me) di bawah ini.
-                 * SILAKAN GANTI NOMOR '6281234567890' DENGAN NOMOR WA ASLI ANDA.
-                 */
                 const nomorWhatsApp = '6281234567890'; // <-- GANTI NOMOR INI
                 const waUrl = `https://wa.me/${nomorWhatsApp}?text=${encodedText}`;
 
-                // Buka tab WhatsApp
                 window.open(waUrl, '_blank');
             });
         }
 
-        // --- Smooth Scroll untuk Tombol "Let's Work Together" ---
         const btnLetsWork = document.getElementById('btn-lets-work');
         if (btnLetsWork) {
             btnLetsWork.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.getElementById('contact');
                 if (target) {
-                    // Karena kita menggunakan Lenis di app.js untuk smooth scroll global
-                    // Jika lenis ada, gunakan animasinya
                     if (window.lenis) {
                         window.lenis.scrollTo(target, { duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
                     } else {
-                        // Fallback browser native scroll
                         target.scrollIntoView({ behavior: 'smooth' });
                     }
                 }
@@ -969,7 +892,6 @@
         renderer.setClearColor(0x000000, 0);
         container.appendChild(renderer.domElement);
 
-        // Build geometry
         const positions = [];
         const colors = [];
 
@@ -980,7 +902,6 @@
                     0,
                     iy * SEPARATION - (AMOUNTY * SEPARATION) / 2
                 );
-                // Warna putih redup agar cocok dengan tema gelap
                 colors.push(180, 180, 180);
             }
         }
@@ -1020,7 +941,6 @@
 
             posAttr.needsUpdate = true;
 
-            // Scissor: hanya render di bawah hero (dari 100vh ke bawah layar)
             const heroHeight = window.innerHeight;
             const scrollY = window.scrollY;
             const clipTop = Math.max(0, heroHeight - scrollY);
@@ -1028,7 +948,6 @@
 
             if (clipHeight > 0) {
                 renderer.setScissorTest(true);
-                // WebGL Y dimulai dari bawah, jadi kita flip
                 renderer.setScissor(0, 0, window.innerWidth, clipHeight);
                 renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
                 renderer.render(scene, camera);
@@ -1061,7 +980,6 @@
                 isMenuOpen = !isMenuOpen;
                 
                 if (isMenuOpen) {
-                    // Animasi rotasi ikon ke X
                     menuIcon.style.transform = 'rotate(90deg) scale(0.5)';
                     menuIcon.style.opacity = '0';
                     setTimeout(() => {
@@ -1070,11 +988,9 @@
                         menuIcon.style.opacity = '1';
                     }, 150);
 
-                    // Munculkan menu
                     mobileMenu.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
                     mobileMenu.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
                 } else {
-                    // Animasi rotasi ikon kembali ke @
                     menuIcon.style.transform = 'rotate(-90deg) scale(0.5)';
                     menuIcon.style.opacity = '0';
                     setTimeout(() => {
@@ -1083,13 +999,11 @@
                         menuIcon.style.opacity = '1';
                     }, 150);
 
-                    // Sembunyikan menu
                     mobileMenu.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
                     mobileMenu.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
                 }
             });
 
-            // Tutup menu jika klik di luar
             document.addEventListener('click', (e) => {
                 if (isMenuOpen && !menuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
                     menuBtn.click();
@@ -1152,74 +1066,56 @@
         // --- Animasi Filter Sempurna ---
         const filterBtns = document.querySelectorAll('.filter-btn');
         const projectItems = document.querySelectorAll('.project-item');
-        let isAnimating = false; // Mencegah klik ganda saat animasi berjalan
+        let isAnimating = false; 
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Jangan lakukan apapun jika sedang animasi atau tombol ini sudah aktif
                 if (isAnimating || btn.classList.contains('bg-white/10')) return;
 
-                isAnimating = true; // Kunci filter
+                isAnimating = true; 
 
-                // 1. Reset tampilan semua tombol filter
                 filterBtns.forEach(b => {
                     b.classList.remove('bg-white/10', 'text-white', 'shadow-sm');
                     b.classList.add('text-white/50');
                 });
-                // 2. Beri gaya aktif pada tombol yang diklik
                 btn.classList.remove('text-white/50');
                 btn.classList.add('bg-white/10', 'text-white', 'shadow-sm');
 
                 const filterValue = btn.getAttribute('data-filter');
                 
-                // 3. Kumpulkan elemen yang sedang TAMPIL dan yang HARUS TAMPIL nantinya
                 const currentlyVisible = Array.from(projectItems).filter(item => item.style.display !== 'none');
                 const itemsToShow = Array.from(projectItems).filter(item => {
                     return filterValue === 'all' || item.getAttribute('data-category') === filterValue;
                 });
 
-                // ============================================
-                // FASE 1: ANIMASI KELUAR SEMUA ELEMEN YANG TAMPIL
-                // ============================================
                 currentlyVisible.forEach(item => {
                     item.style.transitionDelay = '0ms'; 
                     item.classList.remove('filter-hide-up');
                     item.classList.add('filter-hide-down');
                 });
 
-                // Durasi tunggu sebelum elemen baru masuk (400ms agar pas dengan CSS transition)
                 const hideDuration = currentlyVisible.length > 0 ? 400 : 0;
 
-                // ============================================
-                // FASE 2: ATUR LAYOUT GRID & ANIMASI MASUK
-                // ============================================
                 setTimeout(() => {
-                    // Bersihkan semua elemen dari grid sepenuhnya
                     projectItems.forEach(item => {
                         item.style.display = 'none';
                         item.classList.remove('filter-hide-down', 'filter-hide-up');
                     });
 
-                    let enterDelay = 0; // Delay bergiliran
+                    let enterDelay = 0; 
 
-                    // Tampilkan HANYA elemen yang sesuai filter
                     itemsToShow.forEach(item => {
-                        // Siapkan posisi awal (dari atas, transparan)
                         item.classList.add('filter-hide-up', 'no-transition');
                         item.style.display = 'block';
 
-                        // Force browser memproses posisi "atas" ini tanpa animasi
                         void item.offsetWidth;
 
-                        // Terapkan delay bergiliran
                         item.style.transitionDelay = `${enterDelay * 75}ms`;
                         enterDelay++;
 
-                        // Lepaskan kelas untuk memicu CSS transition (turun ke posisi asli)
                         item.classList.remove('no-transition', 'filter-hide-up');
                     });
 
-                    // Buka pengunci animasi saat semua transisi sudah selesai
                     setTimeout(() => {
                         isAnimating = false;
                     }, (enterDelay * 75) + 500);
@@ -1237,7 +1133,7 @@
                     this.uniforms = {
                         time: { type: 'f', value: 0 },
                     };
-                    this.time = 0.5; // Parameter kecepatan (speed)
+                    this.time = 0.5; 
                     this.mesh = this.createMesh();
                 }
 
@@ -1375,7 +1271,6 @@
                 }
             }
 
-            // Inisialisasi Renderer & Scene GLSL Hills
             const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(45, glslContainer.clientWidth / glslContainer.clientHeight, 1, 10000);
@@ -1393,10 +1288,9 @@
             const init = () => {
                 renderer.setPixelRatio(window.devicePixelRatio);
                 renderer.setSize(glslContainer.clientWidth, glslContainer.clientHeight);
-                renderer.setClearColor(0x000000, 0); // Latar transparan (mengambil glow radial dari bg-main)
+                renderer.setClearColor(0x000000, 0); 
                 glslContainer.appendChild(renderer.domElement);
                 
-                // Mengatur sudut pandang kamera sesuai default React (cameraZ: 125)
                 camera.position.set(0, 16, 125);
                 camera.lookAt(new THREE.Vector3(0, 28, 0));
                 
@@ -1412,7 +1306,6 @@
                 requestAnimationFrame(renderLoop);
             };
 
-            // Jalankan!
             init();
         }
 

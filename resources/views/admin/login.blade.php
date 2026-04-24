@@ -32,7 +32,14 @@
         <div class="bg-[#141414] border border-white/10 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
 
-            <form id="loginForm" action="/admin/showcase" method="GET" class="space-y-5">
+            <form id="loginForm" action="/login" method="POST" class="space-y-5">
+                @csrf
+
+                @if($errors->any())
+                <div class="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 text-sm text-red-400">
+                    {{ $errors->first() }}
+                </div>
+                @endif
 
                 <div>
                     <label class="block text-sm font-semibold text-zinc-300 mb-2">Email</label>
