@@ -2,81 +2,6 @@
 
 @section('content')
 
-@php
-// ==========================================
-// DATA SKILLS & TECH TAGS (Translasi dari React)
-// ==========================================
-$skillCategories = [
-  [
-    'title' => 'Core Languages',
-    'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-3.75 5.25m-7.5-10.5L6.75 12l3.75 5.25m-7.5-10.5L3 12l3.75 5.25"/></svg>',
-    'iconColor' => '#4F8EF7',
-    'accent' => 'rgba(79, 142, 247, 0.15)',
-    'skills' => [
-      ['name' => 'TypeScript', 'level' => 97, 'color' => '#4F8EF7'],
-      ['name' => 'JavaScript (ES2024)', 'level' => 99, 'color' => '#4F8EF7'],
-      ['name' => 'HTML / CSS / SVG', 'level' => 98, 'color' => '#4F8EF7'],
-    ],
-  ],
-  [
-    'title' => 'React Ecosystem',
-    'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
-    'iconColor' => '#9B6DFF',
-    'accent' => 'rgba(155, 109, 255, 0.15)',
-    'skills' => [
-      ['name' => 'React 19', 'level' => 98, 'color' => '#9B6DFF'],
-      ['name' => 'Next.js 15', 'level' => 96, 'color' => '#9B6DFF'],
-      ['name' => 'Zustand / Redux', 'level' => 90, 'color' => '#9B6DFF'],
-    ],
-  ],
-  [
-    'title' => 'Animation',
-    'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" /></svg>',
-    'iconColor' => '#22D3EE',
-    'accent' => 'rgba(34, 211, 238, 0.15)',
-    'skills' => [
-      ['name' => 'Framer Motion', 'level' => 95, 'color' => '#22D3EE'],
-      ['name' => 'GSAP', 'level' => 88, 'color' => '#22D3EE'],
-    ],
-  ],
-  [
-    'title' => 'Styling',
-    'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" /></svg>',
-    'iconColor' => '#F472B6',
-    'accent' => 'rgba(244, 114, 182, 0.15)',
-    'skills' => [
-      ['name' => 'Tailwind CSS', 'level' => 99, 'color' => '#F472B6'],
-      ['name' => 'CSS Modules / Sass', 'level' => 92, 'color' => '#F472B6'],
-    ],
-  ],
-  [
-    'title' => 'Performance',
-    'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>',
-    'iconColor' => '#FCD34D',
-    'accent' => 'rgba(252, 211, 77, 0.12)',
-    'skills' => [
-      ['name' => 'Core Web Vitals', 'level' => 96, 'color' => '#FCD34D'],
-      ['name' => 'Bundle Optimization', 'level' => 91, 'color' => '#FCD34D'],
-    ],
-  ],
-  [
-    'title' => 'Tooling',
-    'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" /></svg>',
-    'iconColor' => '#4F8EF7',
-    'accent' => 'rgba(79, 142, 247, 0.1)',
-    'skills' => [
-      ['name' => 'Vite / Webpack', 'level' => 88, 'color' => '#4F8EF7'],
-    ],
-  ],
-];
-
-$techTags = [
-  'React', 'Next.js', 'TypeScript', 'Tailwind', 'Framer Motion',
-  'GSAP', 'Figma', 'Vite', 'Storybook', 'Vitest', 'GraphQL',
-  'Prisma', 'Vercel', 'Docker', 'Git'
-];
-@endphp
-
 <!-- 
     INFO PAGE - PERRY WANG INSPIRED
     - Layout gambar & teks bergantian (zig-zag)
@@ -124,9 +49,9 @@ $techTags = [
     }
 
     /* ===== Minecraft Cursor & Effects ===== */
-    #minecraft-cursor { position: fixed; top: 0; left: 0; width: 44px; height: 44px; background-image: url('https://cur.cursors-4u.net/games/gam-13/gam1282.png'); background-size: contain; background-repeat: no-repeat; pointer-events: none; z-index: 10000; transform: rotate(-15deg); filter: drop-shadow(0 0 8px var(--accent-blue-glow)); }
-    #cursor-glow { position: fixed; width: 160px; height: 160px; background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 40%, transparent 75%); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.4s ease, height 0.4s ease; }
-    .particle { position: fixed; background: radial-gradient(circle, #fff 0%, var(--accent-blue) 60%, transparent 100%); border-radius: 50%; pointer-events: none; z-index: 9998; box-shadow: 0 0 10px rgba(59, 130, 246, 0.8); animation: particleLife 0.8s forwards ease-out; }
+    #minecraft-cursor { position: fixed; top: 0; left: 0; width: 44px; height: 44px; background-image: url('https://cur.cursors-4u.net/games/gam-13/gam1282.png'); background-size: contain; background-repeat: no-repeat; pointer-events: none; z-index: 2147483647; transform: rotate(-15deg); filter: drop-shadow(0 0 8px var(--accent-blue-glow)); }
+    #cursor-glow { position: fixed; width: 160px; height: 160px; background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 40%, transparent 75%); border-radius: 50%; pointer-events: none; z-index: 2147483646; transform: translate(-50%, -50%); transition: width 0.4s ease, height 0.4s ease; }
+    .particle { position: fixed; background: radial-gradient(circle, #fff 0%, var(--accent-blue) 60%, transparent 100%); border-radius: 50%; pointer-events: none; z-index: 2147483645; box-shadow: 0 0 10px rgba(59, 130, 246, 0.8); animation: particleLife 0.8s forwards ease-out; }
     @keyframes particleLife { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0) translateY(20px); } }
 
     /* --- Premium Blur & Scale Reveal Animasi Scroll --- */
@@ -362,113 +287,61 @@ $techTags = [
             </div>
         </div>
 
-        <!-- Story Block 1 -->
+        <!-- Story Blocks dari Database -->
+        @forelse($stories as $index => $story)
+        @php $isEven = $index % 2 === 0; @endphp
         <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-24 items-center mb-16 md:mb-32 reveal">
+
+            @if($isEven)
+            {{-- Gambar kiri, teks kanan --}}
             <div class="md:col-span-6 aspect-[10/13] frame-wrapper">
                 <div class="frame-card">
-                    <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?q=80&w=1000" alt="Mountain View" class="frame-image">
+                    <img src="{{ asset('storage/' . $story->image_path) }}" alt="{{ $story->title }}" class="frame-image">
                     <div class="edge-glow"></div>
                 </div>
             </div>
             <div class="md:col-span-6">
-                <p class="text-xl md:text-2xl font-medium leading-relaxed max-w-md">
-                    This is my story — alongside some flicks from my recent trip to Japan.
+                @if($story->title)
+                <h3 class="text-xl font-bold mb-6">{{ $story->title }}</h3>
+                @endif
+                <div class="space-y-6 text-zinc-400 text-base leading-relaxed">
+                    <p>{{ $story->content }}</p>
+                </div>
+            </div>
+            @else
+            {{-- Teks kiri, gambar kanan (zig-zag) --}}
+            <div class="md:col-span-5 md:col-start-2 order-2 md:order-1">
+                @if($story->title)
+                <h3 class="text-xl font-bold mb-6">{{ $story->title }}</h3>
+                @endif
+                <div class="space-y-6 text-zinc-400 text-base leading-relaxed">
+                    <p>{{ $story->content }}</p>
+                </div>
+            </div>
+            <div class="md:col-span-6 order-1 md:order-2 aspect-[10/13] frame-wrapper">
+                <div class="frame-card">
+                    <img src="{{ asset('storage/' . $story->image_path) }}" alt="{{ $story->title }}" class="frame-image">
+                    <div class="edge-glow"></div>
+                </div>
+            </div>
+            @endif
+
+        </div>
+        @empty
+        {{-- Fallback jika database kosong: tampilkan placeholder --}}
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-24 items-center mb-16 md:mb-32 reveal">
+            <div class="md:col-span-6 aspect-[10/13] frame-wrapper">
+                <div class="frame-card bg-white/5 flex items-center justify-center">
+                    <span class="text-zinc-600 text-sm">Tambahkan story melalui admin panel</span>
+                </div>
+            </div>
+            <div class="md:col-span-6">
+                <p class="text-xl md:text-2xl font-medium leading-relaxed max-w-md text-zinc-600">
+                    Belum ada story. Tambahkan melalui admin panel.
                 </p>
             </div>
         </div>
-
-        <!-- Story Block 2 (Zig-Zag) -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-24 items-center mb-16 md:mb-32 reveal">
-            <!-- Teks di kiri pada Desktop, ditukar posisinya -->
-            <div class="md:col-span-5 md:col-start-2 order-2 md:order-1">
-                <h3 class="text-xl font-bold mb-6">My background in Architecture.</h3>
-                <div class="space-y-6 text-zinc-400 text-base leading-relaxed">
-                    <p>In June of 2022, I graduated from architecture school at the University of Toronto. There, I became obsessed with architectural visualization.</p>
-                    <p>I was deeply fascinated in the concepts of modularity and adaptability — how our built environment could organically evolve in conjunction with humanity.</p>
-                </div>
-            </div>
-            <div class="md:col-span-6 order-1 md:order-2 aspect-[10/13] frame-wrapper">
-                <div class="frame-card">
-                    <img src="https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?q=80&w=1000" alt="Japan Street" class="frame-image">
-                    <div class="edge-glow"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Story Block 3 -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-24 items-center mb-16 md:mb-32 reveal">
-            <div class="md:col-span-6 md:col-start-2 aspect-[10/13] frame-wrapper">
-                <div class="frame-card">
-                    <img src="https://images.unsplash.com/photo-1542051812-df29141beeb7?q=80&w=1000" alt="Playground" class="frame-image">
-                    <div class="edge-glow"></div>
-                </div>
-            </div>
-            <div class="md:col-span-4">
-                <h3 class="text-xl font-bold mb-6">But, I wanted more.</h3>
-                <div class="space-y-6 text-zinc-400 text-base leading-relaxed">
-                    <p>Though I loved the freedom of academic practice, I was greatly dissatisfied with just how slow the industry actually moved.</p>
-                    <p>I wanted to push my design craft at a faster pace and have a positive impact on vastly more people.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Story Block 4 (Zig-Zag) -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-24 items-center mb-16 md:mb-32 reveal">
-            <div class="md:col-span-4 md:col-start-2 order-2 md:order-1">
-                <h3 class="text-xl font-bold mb-6">This thing called UX?</h3>
-                <div class="space-y-6 text-zinc-400 text-base leading-relaxed">
-                    <p>When the pandemic struck, I took it as an opportunity to explore new things. I came across UX design competitions, and thought it might be fun to just give it a go (several times).</p>
-                    <p>Long story short, my failures eventually turned into successes, and the rest was history.</p>
-                </div>
-            </div>
-            <div class="md:col-span-6 order-1 md:order-2 aspect-[10/13] frame-wrapper">
-                <div class="frame-card">
-                    <img src="https://images.unsplash.com/photo-1528340326071-7f8e3f6848d7?q=80&w=1000" alt="Fisherman" class="frame-image">
-                    <div class="edge-glow"></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Story Block 5 -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-24 items-center mb-16 md:mb-32 reveal">
-            <div class="md:col-span-6 aspect-[10/13] frame-wrapper">
-                <div class="frame-card">
-                    <img src="https://images.unsplash.com/photo-1492571350019-22de08371fd3?q=80&w=1000" alt="Cityscape" class="frame-image">
-                    <div class="edge-glow"></div>
-                </div>
-            </div>
-            <div class="md:col-span-5">
-                <h3 class="text-xl font-bold mb-6">Making it all happen.</h3>
-                <div class="space-y-6 text-zinc-400 text-base leading-relaxed">
-                    <p>To my advantage, I was able leverage a lot of the skills and design principles I had picked up during architecture school to greatly expedite my journey of self-learning UX Design.</p>
-                    <p>I loved solving problems by making stuff, and really valued visual storytelling and paying meticulous attention to precision and craftsmanship.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Story Block 6 (Zig Zag End) -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-24 items-center mb-16 md:mb-24 reveal">
-            <div class="md:col-span-4 md:col-start-2 order-2 md:order-1">
-                <h3 class="text-xl font-bold mb-6">In my spare time,</h3>
-                <div class="space-y-6 text-zinc-400 text-base leading-relaxed mb-10">
-                    <p>I'm probably making tweaks to my portfolio or hanging out on Discord.</p>
-                    <p>Other than that, you'll find me playing basketball and volleyball, hitting the gym, gaming, and trying to get my hands on the latest tech.</p>
-                </div>
-                <h3 class="text-xl font-bold mb-4">Thanks for stopping by!</h3>
-                <!-- Signature (Placeholder) -->
-                <div class="w-24 h-12 opacity-60">
-                    <svg viewBox="0 0 100 50" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M10,40 C20,10 30,10 40,30 C50,50 60,10 70,20 C80,30 90,40 85,25" />
-                    </svg>
-                </div>
-            </div>
-            <div class="md:col-span-6 order-1 md:order-2 aspect-[10/13] frame-wrapper">
-                <div class="frame-card">
-                    <img src="https://images.unsplash.com/photo-1511407397940-d57f68e81203?q=80&w=1000" alt="Camera Guy" class="frame-image">
-                    <div class="edge-glow"></div>
-                </div>
-            </div>
-        </div>
+        @endforelse
     </section>
 
     <!-- DIVIDER -->
@@ -497,106 +370,49 @@ $techTags = [
         
         <!-- Wadah Slider (Mencegah text blok ter-highlight saat di-drag) -->
         <div class="relative w-full overflow-hidden" id="exp-slider-container">
-            <!-- Track Slider yang Bergeser -->
             <div class="flex transition-transform duration-500 ease-out will-change-transform" id="exp-slider-track">
-                
-                <!-- HALAMAN 1 (3 Baris) -->
+
+                @forelse($experiences->chunk(3) as $pageIndex => $chunk)
                 <div class="w-full flex-shrink-0 flex flex-col gap-12 md:gap-16 px-1">
-                    <!-- Job 1 -->
+                    @foreach($chunk as $exp)
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-start pointer-events-none">
                         <div class="md:col-span-4">
-                            <h2 class="text-3xl md:text-4xl font-bold">Discord</h2>
+                            <h2 class="text-3xl md:text-4xl font-bold">{{ $exp->company }}</h2>
                         </div>
                         <div class="md:col-span-6 md:col-start-6">
-                            <h3 class="text-xl md:text-2xl font-medium mb-2">Sr. Product Designer, Core Product</h3>
-                            <span class="text-sm text-zinc-500 block mb-6">07/'23 - Present</span>
-                            <p class="text-zinc-400 leading-relaxed text-base">
-                                I'm designing the future of Discord's messaging & core product experiences, amongst other top secret projects.
-                            </p>
+                            <h3 class="text-xl md:text-2xl font-medium mb-2">{{ $exp->role }}</h3>
+                            <span class="text-sm text-zinc-500 block mb-6">{{ $exp->start_year }} — {{ $exp->end_year }}</span>
+                            @if($exp->description)
+                            <p class="text-zinc-400 leading-relaxed text-base">{{ $exp->description }}</p>
+                            @endif
                         </div>
                     </div>
-
-                    <!-- Job 2 -->
+                    @endforeach
+                </div>
+                @empty
+                <div class="w-full flex-shrink-0 flex flex-col gap-12 md:gap-16 px-1">
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-start pointer-events-none">
                         <div class="md:col-span-4">
-                            <h2 class="text-3xl md:text-4xl font-bold">Google</h2>
+                            <h2 class="text-3xl md:text-4xl font-bold text-zinc-700">—</h2>
                         </div>
                         <div class="md:col-span-6 md:col-start-6">
-                            <h3 class="text-xl md:text-2xl font-medium mb-2">Interaction Designer, Stadia</h3>
-                            <span class="text-sm text-zinc-500 block mb-6">06/'22 - 04/'23</span>
-                            <p class="text-zinc-400 leading-relaxed text-base">
-                                I owned a product that was part of Stadia's developer suite, and led design on the website for enabling Bluetooth on Stadia Controllers post-sunset.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Job 3 -->
-                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-start pointer-events-none">
-                        <div class="md:col-span-4">
-                            <h2 class="text-3xl md:text-4xl font-bold">RBC</h2>
-                        </div>
-                        <div class="md:col-span-6 md:col-start-6">
-                            <h3 class="text-xl md:text-2xl font-medium mb-2">UX Design Intern, Innovation</h3>
-                            <span class="text-sm text-zinc-500 block mb-6">Summer '21</span>
-                            <p class="text-zinc-400 leading-relaxed text-base">
-                                I championed the redesign of the bank's internal corporate cards portal, and designed a patented wealth management network visualizer.
-                            </p>
+                            <p class="text-zinc-600 text-base">Belum ada experience. Tambahkan melalui admin panel.</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- HALAMAN 2 (3 Baris Tambahan) -->
-                <div class="w-full flex-shrink-0 flex flex-col gap-12 md:gap-16 px-1">
-                    <!-- Job 4 -->
-                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-start pointer-events-none">
-                        <div class="md:col-span-4">
-                            <h2 class="text-3xl md:text-4xl font-bold">Apple</h2>
-                        </div>
-                        <div class="md:col-span-6 md:col-start-6">
-                            <h3 class="text-xl md:text-2xl font-medium mb-2">Product Design Intern</h3>
-                            <span class="text-sm text-zinc-500 block mb-6">Fall '20</span>
-                            <p class="text-zinc-400 leading-relaxed text-base">
-                                Contributed to the design system and crafted internal tools used by thousands of engineers across the globe.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Job 5 -->
-                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-start pointer-events-none">
-                        <div class="md:col-span-4">
-                            <h2 class="text-3xl md:text-4xl font-bold">Spotify</h2>
-                        </div>
-                        <div class="md:col-span-6 md:col-start-6">
-                            <h3 class="text-xl md:text-2xl font-medium mb-2">UX Researcher</h3>
-                            <span class="text-sm text-zinc-500 block mb-6">Spring '20</span>
-                            <p class="text-zinc-400 leading-relaxed text-base">
-                                Conducted A/B testing and qualitative research to improve user retention on the mobile application.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Job 6 -->
-                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-start pointer-events-none">
-                        <div class="md:col-span-4">
-                            <h2 class="text-3xl md:text-4xl font-bold">Freelance</h2>
-                        </div>
-                        <div class="md:col-span-6 md:col-start-6">
-                            <h3 class="text-xl md:text-2xl font-medium mb-2">UI/UX Designer</h3>
-                            <span class="text-sm text-zinc-500 block mb-6">2018 - 2019</span>
-                            <p class="text-zinc-400 leading-relaxed text-base">
-                                Worked with various startups to define their digital identity from zero to one.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
 
             </div>
         </div>
 
-        <!-- Pagination Dots -->
+        <!-- Pagination Dots (dinamis sesuai jumlah halaman) -->
         <div class="flex justify-center gap-3 mt-12 md:mt-16" id="exp-dots">
+            @foreach($experiences->chunk(3) as $pageIndex => $chunk)
+            <button class="exp-dot {{ $pageIndex === 0 ? 'w-8 h-2 bg-white' : 'w-2 h-2 bg-white/20 hover:bg-white/50' }} rounded-full transition-all duration-300 pointer-events-auto" data-index="{{ $pageIndex }}"></button>
+            @endforeach
+            @if($experiences->isEmpty())
             <button class="exp-dot w-8 h-2 rounded-full bg-white transition-all duration-300 pointer-events-auto" data-index="0"></button>
-            <button class="exp-dot w-2 h-2 rounded-full bg-white/20 hover:bg-white/50 transition-all duration-300 pointer-events-auto" data-index="1"></button>
+            @endif
         </div>
     </section>
 
@@ -631,59 +447,114 @@ $techTags = [
                 </div>
             </div>
 
-            <!-- Bento Grid (Kategori Skills) -->
+            <!-- Bento Grid (Kategori Skills) — hardcode, tidak dari database -->
+            @php
+            $skillCategories = [
+              [
+                'title' => 'Core Languages',
+                'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-3.75 5.25m-7.5-10.5L6.75 12l3.75 5.25m-7.5-10.5L3 12l3.75 5.25"/></svg>',
+                'iconColor' => '#4F8EF7',
+                'accent' => 'rgba(79, 142, 247, 0.15)',
+                'skills' => [
+                  ['name' => 'TypeScript', 'level' => 97, 'color' => '#4F8EF7'],
+                  ['name' => 'JavaScript (ES2024)', 'level' => 99, 'color' => '#4F8EF7'],
+                  ['name' => 'HTML / CSS / SVG', 'level' => 98, 'color' => '#4F8EF7'],
+                ],
+              ],
+              [
+                'title' => 'React Ecosystem',
+                'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
+                'iconColor' => '#9B6DFF',
+                'accent' => 'rgba(155, 109, 255, 0.15)',
+                'skills' => [
+                  ['name' => 'React 19', 'level' => 98, 'color' => '#9B6DFF'],
+                  ['name' => 'Next.js 15', 'level' => 96, 'color' => '#9B6DFF'],
+                  ['name' => 'Zustand / Redux', 'level' => 90, 'color' => '#9B6DFF'],
+                ],
+              ],
+              [
+                'title' => 'Animation',
+                'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" /></svg>',
+                'iconColor' => '#22D3EE',
+                'accent' => 'rgba(34, 211, 238, 0.15)',
+                'skills' => [
+                  ['name' => 'Framer Motion', 'level' => 95, 'color' => '#22D3EE'],
+                  ['name' => 'GSAP', 'level' => 88, 'color' => '#22D3EE'],
+                ],
+              ],
+              [
+                'title' => 'Styling',
+                'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" /></svg>',
+                'iconColor' => '#F472B6',
+                'accent' => 'rgba(244, 114, 182, 0.15)',
+                'skills' => [
+                  ['name' => 'Tailwind CSS', 'level' => 99, 'color' => '#F472B6'],
+                  ['name' => 'CSS Modules / Sass', 'level' => 92, 'color' => '#F472B6'],
+                ],
+              ],
+              [
+                'title' => 'Performance',
+                'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>',
+                'iconColor' => '#FCD34D',
+                'accent' => 'rgba(252, 211, 77, 0.12)',
+                'skills' => [
+                  ['name' => 'Core Web Vitals', 'level' => 96, 'color' => '#FCD34D'],
+                  ['name' => 'Bundle Optimization', 'level' => 91, 'color' => '#FCD34D'],
+                ],
+              ],
+              [
+                'title' => 'Tooling',
+                'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" /></svg>',
+                'iconColor' => '#4F8EF7',
+                'accent' => 'rgba(79, 142, 247, 0.1)',
+                'skills' => [
+                  ['name' => 'Vite / Webpack', 'level' => 88, 'color' => '#4F8EF7'],
+                ],
+              ],
+            ];
+            @endphp
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
                 @foreach($skillCategories as $idx => $cat)
                 <div class="skill-bento-card glass-card rounded-[28px] p-7 shadow-2xl opacity-0 translate-y-[20px] scale-[0.95]" style="transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);">
-                    
-                    <!-- Card Header (Ikon & Judul) -->
                     <div class="flex items-center gap-4 mb-8">
                         <div class="w-12 h-12 rounded-[14px] flex items-center justify-center" style="background: {{ $cat['accent'] }}; color: {{ $cat['iconColor'] }};">
-                            <!-- Render Ikon SVG -->
-                            <div class="w-6 h-6">
-                                {!! $cat['icon'] !!}
-                            </div>
+                            <div class="w-6 h-6">{!! $cat['icon'] !!}</div>
                         </div>
-                        <span class="font-albert text-lg font-bold text-white tracking-tight">
-                            {{ $cat['title'] }}
-                        </span>
+                        <span class="font-albert text-lg font-bold text-white tracking-tight">{{ $cat['title'] }}</span>
                     </div>
-
-                    <!-- List Skill & Progress Bar -->
                     <div class="space-y-5">
                         @foreach($cat['skills'] as $s_idx => $skill)
                         <div>
                             <div class="flex items-center justify-between mb-2">
                                 <span class="font-mono text-[12px] text-zinc-400 tracking-wide">{{ $skill['name'] }}</span>
-                                <span class="font-mono text-[12px] font-bold" style="color: {{ $skill['color'] }}">
-                                    {{ $skill['level'] }}%
-                                </span>
+                                <span class="font-mono text-[12px] font-bold" style="color: {{ $skill['color'] }}">{{ $skill['level'] }}%</span>
                             </div>
                             <div class="skill-bar-track">
-                                <div class="skill-bar-fill" 
-                                     data-width="{{ $skill['level'] }}%" 
+                                <div class="skill-bar-fill"
+                                     data-width="{{ $skill['level'] }}%"
                                      style="background: linear-gradient(90deg, {{ $skill['color'] }}40, {{ $skill['color'] }}); transition-delay: {{ ($idx * 0.1) + ($s_idx * 0.1) }}s;">
                                 </div>
                             </div>
                         </div>
                         @endforeach
                     </div>
-
                 </div>
                 @endforeach
             </div>
 
-            <!-- Tech Tags Cloud -->
+            <!-- Tools dari Database -->
             <div class="glass-card rounded-[28px] p-8 md:p-10 shadow-2xl">
                 <div class="font-mono text-[11px] text-zinc-500 uppercase tracking-widest mb-6">
-                    Also proficient in
+                    Tools & Technologies
                 </div>
                 <div class="flex flex-wrap gap-3">
-                    @foreach($techTags as $i => $tag)
+                    @forelse($tools as $i => $tool)
                     <span class="tech-tag px-4 py-2 rounded-full font-mono text-[13px] font-medium text-zinc-400 bg-white/[0.03] border border-white/[0.06] cursor-default opacity-0 -translate-x-3 transition-all duration-300 hover:bg-[#4F8EF7]/10 hover:text-[#4F8EF7] hover:border-[#4F8EF7]/30" style="transition: opacity 0.4s ease, transform 0.4s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;">
-                        {{ $tag }}
+                        {{ $tool->name }}
                     </span>
-                    @endforeach
+                    @empty
+                    <span class="text-zinc-600 text-sm italic">Belum ada tools. Tambahkan melalui admin panel.</span>
+                    @endforelse
                 </div>
             </div>
 

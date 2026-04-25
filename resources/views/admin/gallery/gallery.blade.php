@@ -50,6 +50,18 @@
                 </button>
             </div>
 
+            {{-- Flash Messages --}}
+            @if(session('success'))
+            <div class="mb-6 px-5 py-4 bg-green-500/10 border border-green-500/20 rounded-2xl text-green-400 text-sm font-medium">
+                ✓ {{ session('success') }}
+            </div>
+            @endif
+            @if($errors->any())
+            <div class="mb-6 px-5 py-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-400 text-sm">
+                @foreach($errors->all() as $error)<div>✕ {{ $error }}</div>@endforeach
+            </div>
+            @endif
+
             <!-- Bagian Tabel -->
             <div class="bg-[#141414] border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
                 <div class="overflow-x-auto">
@@ -63,37 +75,32 @@
                             </tr>
                         </thead>
                         <tbody id="galleryTableBody" class="divide-y divide-white/5 text-sm">
-                            
-                            <!-- Baris Dummy Data 1 -->
-                            <tr id="row-1" class="hover:bg-white/[0.02] transition-colors group">
+                            @forelse($images as $img)
+                            <tr id="row-{{ $img->id }}" class="hover:bg-white/[0.02] transition-colors group">
                                 <td class="p-6">
-                                    <!-- Menampilkan Gambar -->
                                     <div class="w-24 h-16 rounded-lg overflow-hidden border border-white/10 bg-white/5">
-                                        <img src="https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?q=80&w=300" class="w-full h-full object-cover opacity-90 hover:scale-110 transition-transform duration-500" alt="Mountain Landscape">
+                                        <img src="{{ asset('storage/' . $img->image_path) }}" class="w-full h-full object-cover opacity-90 hover:scale-110 transition-transform duration-500" alt="{{ $img->title }}">
                                     </div>
                                 </td>
-                                <td class="p-6 font-bold text-white text-base">Mountain Landscape</td>
-                                <td class="p-6 text-zinc-400 max-w-xs truncate hidden md:table-cell">
-                                    Pemandangan gunung di pagi hari dengan kabut tipis dan cahaya matahari yang hangat.
-                                </td>
+                                <td class="p-6 font-bold text-white text-base">{{ $img->title }}</td>
+                                <td class="p-6 text-zinc-400 max-w-xs truncate hidden md:table-cell">{{ $img->description }}</td>
                                 <td class="p-6">
                                     <div class="flex items-center justify-end gap-3 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <!-- Tombol View -->
-                                        <button type="button" onclick="openViewModal('Mountain Landscape', 'Pemandangan gunung di pagi hari dengan kabut tipis dan cahaya matahari yang hangat. Diambil saat perjalanan musim dingin tahun lalu.', 'https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?q=80&w=800')" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-colors" title="Lihat Detail">
+                                        <button type="button" onclick="openViewModal('{{ addslashes($img->title) }}', '{{ addslashes($img->description) }}', '{{ asset('storage/' . $img->image_path) }}')" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                         </button>
-                                        <!-- Tombol Edit -->
-                                        <button type="button" onclick="openEditModal('1', 'Mountain Landscape', 'Pemandangan gunung di pagi hari dengan kabut tipis dan cahaya matahari yang hangat. Diambil saat perjalanan musim dingin tahun lalu.', 'https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?q=80&w=400')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors" title="Ubah Data">
+                                        <button type="button" onclick="openEditModal('{{ $img->id }}', '{{ addslashes($img->title) }}', '{{ addslashes($img->description) }}', '{{ asset('storage/' . $img->image_path) }}')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                         </button>
-                                        <!-- Tombol Delete -->
-                                        <button type="button" onclick="openDeleteModal('Mountain Landscape', 'row-1')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors" title="Hapus">
+                                        <button type="button" onclick="openDeleteModal('{{ addslashes($img->title) }}', '{{ $img->id }}')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                         </button>
                                     </div>
                                 </td>
                             </tr>
-
+                            @empty
+                            <tr><td colspan="4" class="p-12 text-center text-zinc-600">Belum ada foto. Klik "Tambah Foto" untuk menambahkan.</td></tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -115,7 +122,7 @@
                 <p class="text-zinc-400 mt-2">Unggah gambar baru beserta judul dan deskripsi singkat.</p>
             </div>
 
-            <form id="createGalleryForm" action="#" method="POST" enctype="multipart/form-data">
+            <form id="createGalleryForm" action="{{ route('admin.gallery.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="space-y-6">
                     <!-- Input Gambar -->
@@ -167,7 +174,7 @@
                 <p class="text-zinc-400 mt-2">Perbarui gambar, judul, atau deskripsi singkat.</p>
             </div>
 
-            <form id="editGalleryForm" action="#" method="POST" enctype="multipart/form-data">
+            <form id="editGalleryForm" action="" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <input type="hidden" id="editGalleryId" name="id">
@@ -249,7 +256,7 @@
             
             <div class="flex gap-4 justify-center">
                 <button type="button" onclick="closeDeleteModal()" class="px-6 py-2.5 rounded-full text-sm font-bold text-zinc-400 hover:text-white hover:bg-white/5 transition-all w-1/2 border border-white/5">Batal</button>
-                <form id="deleteGalleryForm" action="#" method="POST" class="w-1/2">
+                <form id="deleteGalleryForm" action="" method="POST" class="w-1/2">
                     @csrf
                     @method('DELETE')
                     <input type="hidden" id="deleteRowId" value="">
@@ -288,20 +295,6 @@
             createModalContent.classList.add('scale-95');
         }
 
-        createForm.addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            closeCreateModal();
-            swalDark.fire({
-                icon: 'success',
-                title: 'Berhasil Disimpan!',
-                text: 'Gambar baru telah ditambahkan ke galeri Anda.',
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                location.reload(); // Dummy reload
-            });
-        });
-
         // ==================== MODAL UBAH (EDIT) ====================
         const editModal = document.getElementById('editModal');
         const editModalContent = document.getElementById('editModalContent');
@@ -312,8 +305,9 @@
             document.getElementById('editTitle').value = title;
             document.getElementById('editDescription').value = description;
             document.getElementById('editPhotoPreview').src = imgSrc;
+            editForm.action = '/admin/gallery-item/' + id;
 
-            closeViewModal(); // Tutup modal View bila sedang terbuka
+            closeViewModal();
             editModal.classList.remove('opacity-0', 'pointer-events-none');
             editModalContent.classList.remove('scale-95');
         }
@@ -323,23 +317,6 @@
             editModalContent.classList.add('scale-95');
         }
 
-        editForm.addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            closeEditModal();
-            Swal.fire({
-                background: '#141414',
-                color: '#ffffff',
-                icon: 'success',
-                title: 'Perubahan Disimpan!',
-                text: 'Data gambar telah berhasil diperbarui.',
-                showConfirmButton: false,
-                timer: 2000,
-                customClass: { popup: 'border border-white/10 rounded-3xl shadow-2xl' }
-            }).then(() => {
-                location.reload();
-            });
-        });
-
         // ==================== MODAL LIHAT DETAIL (VIEW) ====================
         const viewModal = document.getElementById('viewModal');
         const viewModalContent = document.getElementById('viewModalContent');
@@ -348,10 +325,6 @@
             document.getElementById('viewTitle').textContent = title;
             document.getElementById('viewDescription').textContent = description;
             document.getElementById('viewImage').src = imgSrc;
-
-            // Memastikan tombol "Ubah Data Ini" pada View membuka modal edit yang relevan
-            document.getElementById('viewEditBtn').onclick = () => openEditModal('1', title, description, imgSrc);
-
             viewModal.classList.remove('opacity-0', 'pointer-events-none');
             viewModalContent.classList.remove('scale-95');
         }
@@ -365,14 +338,11 @@
         const deleteModal = document.getElementById('deleteModal');
         const deleteContent = document.getElementById('deleteModalContent');
         const deleteNameSpan = document.getElementById('deleteGalleryName');
-        const deleteRowInput = document.getElementById('deleteRowId');
 
-        function openDeleteModal(title, rowId) {
-            // Singkat judul apabila terlalu panjang di dalam modal konfirmasi
+        function openDeleteModal(title, galleryId) {
             const shortTitle = title.length > 30 ? title.substring(0, 30) + '...' : title;
             deleteNameSpan.textContent = `"${shortTitle}"`;
-            deleteRowInput.value = rowId;
-            
+            document.getElementById('deleteGalleryForm').action = '/admin/gallery-item/' + galleryId;
             deleteModal.classList.remove('opacity-0', 'pointer-events-none');
             deleteContent.classList.remove('scale-95');
         }
@@ -382,26 +352,8 @@
             deleteContent.classList.add('scale-95');
         }
 
-        document.getElementById('deleteGalleryForm').addEventListener('submit', function(e) {
-            e.preventDefault(); 
+        document.getElementById('deleteGalleryForm').addEventListener('submit', function() {
             closeDeleteModal();
-            swalDark.fire({
-                icon: 'success',
-                title: 'Dihapus!',
-                text: 'Gambar telah dihapus dari galeri.',
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                // Efek animasi menghapus baris dari tabel
-                const rowId = document.getElementById('deleteRowId').value;
-                const rowElement = document.getElementById(rowId);
-                if(rowElement) {
-                    rowElement.style.transition = 'all 0.5s ease';
-                    rowElement.style.opacity = '0';
-                    rowElement.style.transform = 'translateX(-20px)';
-                    setTimeout(() => rowElement.remove(), 500);
-                }
-            });
         });
     </script>
 </body>

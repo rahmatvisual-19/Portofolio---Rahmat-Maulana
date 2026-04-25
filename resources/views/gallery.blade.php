@@ -2,56 +2,6 @@
 
 @section('content')
 
-@php
-// ==========================================
-// DATA GALLERY ITEMS (Translasi dari React)
-// ==========================================
-$imageItems = [
-  [
-    'id' => 1,
-    'title' => 'Mountain Vista',
-    'desc' => 'Serenity above the clouds.',
-    'url' => 'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=800&q=80',
-    'span' => 'md:col-span-2 md:row-span-2',
-  ],
-  [
-    'id' => 2,
-    'title' => 'Coastal Arch',
-    'desc' => 'Where the land meets the sea.',
-    'url' => 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',
-    'span' => 'md:row-span-1',
-  ],
-  [
-    'id' => 3,
-    'title' => 'Forest Canopy',
-    'desc' => 'Sunlight filtering through leaves.',
-    'url' => 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80',
-    'span' => 'md:row-span-1',
-  ],
-  [
-    'id' => 4,
-    'title' => 'Desert Dunes',
-    'desc' => 'Golden sands under the sun.',
-    'url' => 'https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?w=800&q=80',
-    'span' => 'md:row-span-2',
-  ],
-  [
-    'id' => 5,
-    'title' => 'City at Night',
-    'desc' => 'A vibrant urban landscape.',
-    'url' => 'https://images.unsplash.com/photo-1506606401543-2e73709cebb4?w=900&auto=format&fit=crop&q=60',
-    'span' => 'md:row-span-1',
-  ],
-  [
-    'id' => 6,
-    'title' => 'Misty Lake',
-    'desc' => 'Morning fog over calm waters.',
-    'url' => 'https://images.unsplash.com/photo-1634023233766-0c16b151bfb0?w=900&auto=format&fit=crop&q=60',
-    'span' => 'md:col-span-2 md:row-span-1',
-  ]
-];
-@endphp
-
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
@@ -70,6 +20,12 @@ $imageItems = [
         cursor: none !important;
     }
 
+    /* Override cursor Tailwind agar tidak menimpa custom cursor */
+    .cursor-pointer, .cursor-grab, .cursor-grabbing,
+    [class*="cursor-"] {
+        cursor: none !important;
+    }
+
     /* --- Dasar Latar Belakang (Gelap tanpa warna-warni berlebih) --- */
     .bg-main {
         background-color: var(--bg);
@@ -80,9 +36,9 @@ $imageItems = [
     }
 
     /* ===== Minecraft Cursor & Effects ===== */
-    #minecraft-cursor { position: fixed; top: 0; left: 0; width: 44px; height: 44px; background-image: url('https://cur.cursors-4u.net/games/gam-13/gam1282.png'); background-size: contain; background-repeat: no-repeat; pointer-events: none; z-index: 100000; transform: rotate(-15deg); filter: drop-shadow(0 0 8px var(--accent-blue-glow)); }
-    #cursor-glow { position: fixed; width: 160px; height: 160px; background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 40%, transparent 75%); border-radius: 50%; pointer-events: none; z-index: 99999; transform: translate(-50%, -50%); transition: width 0.4s ease, height 0.4s ease; }
-    .particle { position: fixed; background: radial-gradient(circle, #fff 0%, var(--accent-blue) 60%, transparent 100%); border-radius: 50%; pointer-events: none; z-index: 99998; box-shadow: 0 0 10px rgba(59, 130, 246, 0.8); animation: particleLife 0.8s forwards ease-out; }
+    #minecraft-cursor { position: fixed; top: 0; left: 0; width: 44px; height: 44px; background-image: url('https://cur.cursors-4u.net/games/gam-13/gam1282.png'); background-size: contain; background-repeat: no-repeat; pointer-events: none; z-index: 2147483647; transform: rotate(-15deg); filter: drop-shadow(0 0 8px var(--accent-blue-glow)); }
+    #cursor-glow { position: fixed; width: 160px; height: 160px; background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 40%, transparent 75%); border-radius: 50%; pointer-events: none; z-index: 2147483646; transform: translate(-50%, -50%); transition: width 0.4s ease, height 0.4s ease; }
+    .particle { position: fixed; background: radial-gradient(circle, #fff 0%, var(--accent-blue) 60%, transparent 100%); border-radius: 50%; pointer-events: none; z-index: 2147483645; box-shadow: 0 0 10px rgba(59, 130, 246, 0.8); animation: particleLife 0.8s forwards ease-out; }
     @keyframes particleLife { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0) translateY(20px); } }
 
     /* --- Premium Blur Reveal Animasi --- */
@@ -172,26 +128,42 @@ $imageItems = [
             <div id="gallery-scroll-area" class="w-full overflow-x-auto hide-scrollbar select-none pb-12 pt-4 px-4 md:px-8">
                 <div class="w-max bento-grid mx-auto">
                     
-                    @foreach($imageItems as $index => $item)
+                    @forelse($images as $index => $item)
+                    @php
+                        // Pola span bento otomatis berdasarkan posisi (mengulang setiap 6 item)
+                        $spanPatterns = [
+                            'md:col-span-2 md:row-span-2',
+                            'md:row-span-1',
+                            'md:row-span-1',
+                            'md:row-span-2',
+                            'md:row-span-1',
+                            'md:col-span-2 md:row-span-1',
+                        ];
+                        $span = $spanPatterns[$index % 6];
+                    @endphp
                         <!-- Bento Item Card -->
-                        <div class="stagger-item group relative flex h-full w-full min-w-[15rem] cursor-pointer items-end overflow-hidden rounded-xl border border-white/10 bg-[#111] p-4 shadow-sm transition-all duration-500 ease-out hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:border-white/30 {{ $item['span'] }}" 
-                             onclick="openGalleryModal('{{ $item['url'] }}')"
+                        <div class="stagger-item group relative flex h-full w-full min-w-[15rem] cursor-pointer items-end overflow-hidden rounded-xl border border-white/10 bg-[#111] p-4 shadow-sm transition-all duration-500 ease-out hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:border-white/30 {{ $span }}"
+                             onclick="openGalleryModal('{{ asset('storage/' . $item->image_path) }}')"
                              style="transition-delay: {{ $index * 100 }}ms;">
-                            
+
                             <!-- Image Background -->
-                            <img src="{{ $item['url'] }}" alt="{{ $item['title'] }}" class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105 pointer-events-none" draggable="false" />
-                            
+                            <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->title }}" class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105 pointer-events-none" draggable="false" />
+
                             <!-- Gradient Overlay -->
                             <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
-                            
+
                             <!-- Text Details (Reveal on Hover) -->
                             <div class="relative z-10 translate-y-4 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 group-hover:opacity-100 w-full pointer-events-none">
-                                <h3 class="text-xl font-bold text-white tracking-tight">{{ $item['title'] }}</h3>
-                                <p class="mt-1 text-sm text-white/80 font-medium">{{ $item['desc'] }}</p>
+                                <h3 class="text-xl font-bold text-white tracking-tight">{{ $item->title }}</h3>
+                                <p class="mt-1 text-sm text-white/80 font-medium">{{ $item->description }}</p>
                             </div>
 
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="stagger-item flex items-center justify-center min-w-[15rem] h-full rounded-xl border border-dashed border-white/10 bg-[#111] p-8 text-zinc-600 text-sm">
+                            Belum ada foto. Tambahkan melalui admin panel.
+                        </div>
+                    @endforelse
 
                 </div>
             </div>

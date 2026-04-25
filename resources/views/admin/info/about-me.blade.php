@@ -48,7 +48,17 @@
                 </button>
             </div>
 
-            <!-- Table Section -->
+            {{-- Flash Messages --}}
+            @if(session('success'))
+            <div class="mb-6 px-5 py-4 bg-green-500/10 border border-green-500/20 rounded-2xl text-green-400 text-sm font-medium">
+                ✓ {{ session('success') }}
+            </div>
+            @endif
+            @if($errors->any())
+            <div class="mb-6 px-5 py-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-400 text-sm">
+                @foreach($errors->all() as $error)<div>✕ {{ $error }}</div>@endforeach
+            </div>
+            @endif
             <div class="bg-[#141414] border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
@@ -61,36 +71,32 @@
                             </tr>
                         </thead>
                         <tbody id="aboutTableBody" class="divide-y divide-white/5 text-sm">
-                            
-                            <!-- Dummy Data Row -->
-                            <tr id="row-1" class="hover:bg-white/[0.02] transition-colors group">
+                            @forelse($stories as $s)
+                            <tr id="row-{{ $s->id }}" class="hover:bg-white/[0.02] transition-colors group">
                                 <td class="p-6">
                                     <div class="w-16 h-20 rounded-xl overflow-hidden border border-white/10 bg-white/5">
-                                        <img src="https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?q=80&w=200" class="w-full h-full object-cover opacity-90" alt="Japan Street">
+                                        <img src="{{ asset('storage/' . $s->image_path) }}" class="w-full h-full object-cover opacity-90" alt="{{ $s->title }}">
                                     </div>
                                 </td>
-                                <td class="p-6 font-bold text-white text-base">My background in Architecture.</td>
-                                <td class="p-6 text-zinc-400 max-w-xs truncate hidden md:table-cell">
-                                    In June of 2022, I graduated from architecture school at the University of Toronto...
-                                </td>
+                                <td class="p-6 font-bold text-white text-base">{{ $s->title ?: '(No title)' }}</td>
+                                <td class="p-6 text-zinc-400 max-w-xs truncate hidden md:table-cell">{{ Str::limit($s->content, 80) }}</td>
                                 <td class="p-6">
                                     <div class="flex items-center justify-end gap-3 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <!-- View Button -->
-                                        <button type="button" onclick="openViewModal('My background in Architecture.', 'In June of 2022, I graduated from architecture school at the University of Toronto. There, I became obsessed with architectural visualization.\n\nI was deeply fascinated in the concepts of modularity and adaptability.', 'https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?q=80&w=600')" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-colors" title="View Details">
+                                        <button type="button" onclick="openViewModal('{{ addslashes($s->title) }}', '{{ addslashes($s->content) }}', '{{ asset('storage/' . $s->image_path) }}')" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                         </button>
-                                        <!-- Edit Button -->
-                                        <button type="button" onclick="openEditModal('1', 'My background in Architecture.', 'In June of 2022, I graduated from architecture school at the University of Toronto. There, I became obsessed with architectural visualization.\n\nI was deeply fascinated in the concepts of modularity and adaptability.', 'https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?q=80&w=300')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors" title="Edit">
+                                        <button type="button" onclick="openEditModal('{{ $s->id }}', '{{ addslashes($s->title) }}', '{{ addslashes($s->content) }}', '{{ asset('storage/' . $s->image_path) }}')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                         </button>
-                                        <!-- Delete Button -->
-                                        <button type="button" onclick="openDeleteModal('My background in Architecture.', 'row-1')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors" title="Delete">
+                                        <button type="button" onclick="openDeleteModal('{{ addslashes($s->title ?: 'this block') }}', '{{ $s->id }}')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                         </button>
                                     </div>
                                 </td>
                             </tr>
-
+                            @empty
+                            <tr><td colspan="4" class="p-12 text-center text-zinc-600">Belum ada story. Klik "Add Story Block".</td></tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -112,7 +118,7 @@
                 <p class="text-zinc-400 mt-2">Add a new photo and story paragraph. Max 6 blocks recommended for the best layout.</p>
             </div>
 
-            <form id="createAboutForm" action="#" method="POST" enctype="multipart/form-data">
+            <form id="createAboutForm" action="{{ route('admin.stories.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="space-y-6">
@@ -163,7 +169,7 @@
                 <p class="text-zinc-400 mt-2">Update the photo or text content for this section.</p>
             </div>
 
-            <form id="editAboutForm" action="#" method="POST" enctype="multipart/form-data">
+            <form id="editAboutForm" action="" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <input type="hidden" id="editBlockId" name="id">
@@ -241,7 +247,7 @@
             
             <div class="flex gap-4 justify-center">
                 <button type="button" onclick="closeDeleteModal()" class="px-6 py-2.5 rounded-full text-sm font-bold text-zinc-400 hover:text-white hover:bg-white/5 transition-all w-1/2 border border-white/5">Cancel</button>
-                <form id="deleteBlockForm" action="#" method="POST" class="w-1/2">
+                <form id="deleteBlockForm" action="" method="POST" class="w-1/2">
                     @csrf
                     @method('DELETE')
                     <input type="hidden" id="deleteRowId" value="">
@@ -279,20 +285,6 @@
             createModalContent.classList.add('scale-95');
         }
 
-        createForm.addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            closeCreateModal();
-            swalDark.fire({
-                icon: 'success',
-                title: 'Block Added!',
-                text: 'Your story block has been saved.',
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                location.reload();
-            });
-        });
-
         // ==================== EDIT MODAL ====================
         const editModal = document.getElementById('editModal');
         const editModalContent = document.getElementById('editModalContent');
@@ -303,6 +295,7 @@
             document.getElementById('editTitle').value = title;
             document.getElementById('editContent').value = content;
             document.getElementById('editPhotoPreview').src = imgSrc;
+            editForm.action = '/admin/info/stories/' + id;
 
             closeViewModal();
             editModal.classList.remove('opacity-0', 'pointer-events-none');
@@ -313,23 +306,6 @@
             editModal.classList.add('opacity-0', 'pointer-events-none');
             editModalContent.classList.add('scale-95');
         }
-
-        editForm.addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            closeEditModal();
-            Swal.fire({
-                background: '#141414',
-                color: '#ffffff',
-                icon: 'success',
-                title: 'Changes Saved!',
-                text: 'Your story block has been updated.',
-                showConfirmButton: false,
-                timer: 2000,
-                customClass: { popup: 'border border-white/10 rounded-3xl shadow-2xl' }
-            }).then(() => {
-                location.reload();
-            });
-        });
 
         // ==================== VIEW MODAL ====================
         const viewModal = document.getElementById('viewModal');
@@ -358,11 +334,10 @@
         const deleteNameSpan = document.getElementById('deleteBlockName');
         const deleteRowInput = document.getElementById('deleteRowId');
 
-        function openDeleteModal(title, rowId) {
-            // Persingkat judul jika terlalu panjang di dalam konfirmasi hapus
+        function openDeleteModal(title, storyId) {
             const shortTitle = title.length > 30 ? title.substring(0, 30) + '...' : title;
             deleteNameSpan.textContent = shortTitle;
-            deleteRowInput.value = rowId;
+            document.getElementById('deleteBlockForm').action = '/admin/info/stories/' + storyId;
             deleteModal.classList.remove('opacity-0', 'pointer-events-none');
             deleteContent.classList.remove('scale-95');
         }
@@ -372,25 +347,8 @@
             deleteContent.classList.add('scale-95');
         }
 
-        document.getElementById('deleteBlockForm').addEventListener('submit', function(e) {
-            e.preventDefault(); 
+        document.getElementById('deleteBlockForm').addEventListener('submit', function() {
             closeDeleteModal();
-            swalDark.fire({
-                icon: 'success',
-                title: 'Deleted!',
-                text: 'Story block removed.',
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                const rowId = document.getElementById('deleteRowId').value;
-                const rowElement = document.getElementById(rowId);
-                if(rowElement) {
-                    rowElement.style.transition = 'all 0.5s ease';
-                    rowElement.style.opacity = '0';
-                    rowElement.style.transform = 'translateX(-20px)';
-                    setTimeout(() => rowElement.remove(), 500);
-                }
-            });
         });
     </script>
 </body>

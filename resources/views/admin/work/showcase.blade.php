@@ -47,7 +47,19 @@
                 </button>
             </div>
 
-            <!-- Table Section -->
+            {{-- Flash Messages --}}
+            @if(session('success'))
+            <div class="mb-6 px-5 py-4 bg-green-500/10 border border-green-500/20 rounded-2xl text-green-400 text-sm font-medium">
+                ✓ {{ session('success') }}
+            </div>
+            @endif
+            @if($errors->any())
+            <div class="mb-6 px-5 py-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-400 text-sm">
+                @foreach($errors->all() as $error)
+                <div>✕ {{ $error }}</div>
+                @endforeach
+            </div>
+            @endif
             <div class="bg-[#141414] border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
@@ -60,41 +72,39 @@
                             </tr>
                         </thead>
                         <tbody id="projectTableBody" class="divide-y divide-white/5 text-sm">
-                            
-                            <!-- Item Dummy 1 -->
-                            <tr id="row-1" class="hover:bg-white/[0.02] transition-colors group">
+                            @forelse($projects as $p)
+                            <tr id="row-{{ $p->id }}" class="hover:bg-white/[0.02] transition-colors group">
                                 <td class="p-6">
                                     <div class="flex items-center gap-4">
                                         <div class="w-16 h-12 rounded-lg overflow-hidden border border-white/10">
-                                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=200" class="w-full h-full object-cover" alt="Nexus">
+                                            <img src="{{ asset('storage/' . $p->image_path) }}" class="w-full h-full object-cover" alt="{{ $p->title }}">
                                         </div>
-                                        <div>
-                                            <div class="font-bold text-white text-base">Nexus Platform</div>
-                                        </div>
+                                        <div class="font-bold text-white text-base">{{ $p->title }}</div>
                                     </div>
                                 </td>
-                                <td class="p-6 text-zinc-400 font-jetbrains">Google, '23</td>
+                                <td class="p-6 text-zinc-400 font-jetbrains">{{ $p->company }}</td>
                                 <td class="p-6">
-                                    <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-white/80">Design</span>
+                                    <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-white/80">{{ ucfirst($p->category) }}</span>
                                 </td>
                                 <td class="p-6">
                                     <div class="flex items-center justify-end gap-3 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <!-- View -->
-                                        <button type="button" onclick="openViewModal('Nexus Platform', 'Google, \'23', 'Design', 'Membangun ekosistem yang berkelanjutan.', 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800')" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-colors" title="View Details">
+                                        <button type="button" onclick="openViewModal('{{ addslashes($p->title) }}', '{{ addslashes($p->company) }}', '{{ ucfirst($p->category) }}', '{{ addslashes($p->description) }}', '{{ asset('storage/' . $p->image_path) }}')" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                         </button>
-                                        <!-- Edit -->
-                                        <button type="button" onclick="openEditModal('1', 'Nexus Platform', 'Google, \'23', 'design', 'Membangun ekosistem yang berkelanjutan.', 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors" title="Edit">
+                                        <button type="button" onclick="openEditModal('{{ $p->id }}', '{{ addslashes($p->title) }}', '{{ addslashes($p->company) }}', '{{ $p->category }}', '{{ addslashes($p->description) }}', '{{ asset('storage/' . $p->image_path) }}')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                         </button>
-                                        <!-- Delete -->
-                                        <button type="button" onclick="openDeleteModal('Nexus Platform', 'row-1')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors" title="Delete">
+                                        <button type="button" onclick="openDeleteModal('{{ addslashes($p->title) }}', '{{ $p->id }}')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                         </button>
                                     </div>
                                 </td>
                             </tr>
-
+                            @empty
+                            <tr>
+                                <td colspan="4" class="p-12 text-center text-zinc-600">Belum ada project. Klik "Add New Project" untuk menambahkan.</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -116,7 +126,7 @@
                 <p class="text-zinc-400 mt-2">Publish a new project to your portfolio showcase.</p>
             </div>
 
-            <form id="createProjectForm" action="#" method="POST" enctype="multipart/form-data">
+            <form id="createProjectForm" action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="space-y-6">
@@ -190,7 +200,7 @@
                 <p class="text-zinc-400 mt-2">Update the details of your portfolio showcase.</p>
             </div>
 
-            <form id="editProjectForm" action="#" method="POST" enctype="multipart/form-data">
+            <form id="editProjectForm" action="" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <input type="hidden" id="editProjectId" name="id">
@@ -285,7 +295,7 @@
             
             <div class="flex gap-4 justify-center">
                 <button type="button" onclick="closeDeleteModal()" class="px-6 py-2.5 rounded-full text-sm font-bold text-zinc-400 hover:text-white hover:bg-white/5 transition-all w-1/2 border border-white/5">Cancel</button>
-                <form id="deleteProjectForm" action="#" method="POST" class="w-1/2">
+                <form id="deleteProjectForm" action="" method="POST" class="w-1/2">
                     @csrf
                     @method('DELETE')
                     <input type="hidden" id="deleteRowId" value="">
@@ -340,18 +350,7 @@
         }
 
         createForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            closeCreateModal();
-            swalDark.fire({
-                icon: 'success',
-                title: 'Project Published!',
-                text: 'Your new showcase project has been successfully created.',
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                // Di dunia nyata, reload page atau add baris ke tabel via DOM
-                location.reload();
-            });
+            // Submit normal ke server
         });
 
         // ==================== EDIT MODAL ====================
@@ -368,9 +367,10 @@
             document.getElementById('editDesc').value = desc;
             document.getElementById('editImagePreview').src = imgSrc;
 
-            // Jika modal View sedang terbuka, tutup dulu agar tidak tumpang tindih
-            closeViewModal();
+            // Set action form ke route update yang benar
+            editForm.action = '/admin/work/projects/' + id;
 
+            closeViewModal();
             editModal.classList.remove('opacity-0', 'pointer-events-none');
             editModalContent.classList.remove('scale-95');
         }
@@ -381,20 +381,7 @@
         }
 
         editForm.addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            closeEditModal();
-            Swal.fire({
-                background: '#141414',
-                color: '#ffffff',
-                icon: 'success',
-                title: 'Changes Saved!',
-                text: 'Your project details have been successfully updated.',
-                showConfirmButton: false,
-                timer: 2000,
-                customClass: { popup: 'border border-white/10 rounded-3xl shadow-2xl' }
-            }).then(() => {
-                location.reload();
-            });
+            // Biarkan form submit normal ke server
         });
 
         // ==================== VIEW MODAL ====================
@@ -407,9 +394,6 @@
             document.getElementById('viewCategory').textContent = category;
             document.getElementById('viewDesc').textContent = desc;
             document.getElementById('viewImage').src = imgSrc;
-            
-            // Set trigger tombol edit di dalam view modal
-            document.getElementById('viewEditBtn').onclick = () => openEditModal('1', title, company, category.toLowerCase(), desc, imgSrc);
 
             viewModal.classList.remove('opacity-0', 'pointer-events-none');
             viewModalContent.classList.remove('scale-95');
@@ -424,11 +408,11 @@
         const deleteModal = document.getElementById('deleteModal');
         const deleteContent = document.getElementById('deleteModalContent');
         const deleteNameSpan = document.getElementById('deleteProjectName');
-        const deleteRowInput = document.getElementById('deleteRowId');
 
-        function openDeleteModal(projectName, rowId) {
+        function openDeleteModal(projectName, projectId) {
             deleteNameSpan.textContent = projectName;
-            deleteRowInput.value = rowId;
+            // Set action form delete ke route yang benar
+            document.getElementById('deleteProjectForm').action = '/admin/work/projects/' + projectId;
             deleteModal.classList.remove('opacity-0', 'pointer-events-none');
             deleteContent.classList.remove('scale-95');
         }
@@ -438,26 +422,9 @@
             deleteContent.classList.add('scale-95');
         }
 
-        document.getElementById('deleteProjectForm').addEventListener('submit', function(e) {
-            e.preventDefault(); 
+        // Delete form submit normal ke server
+        document.getElementById('deleteProjectForm').addEventListener('submit', function() {
             closeDeleteModal();
-
-            swalDark.fire({
-                icon: 'success',
-                title: 'Deleted!',
-                text: 'The project has been permanently removed.',
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                const rowId = document.getElementById('deleteRowId').value;
-                const rowElement = document.getElementById(rowId);
-                if(rowElement) {
-                    rowElement.style.transition = 'all 0.5s ease';
-                    rowElement.style.opacity = '0';
-                    rowElement.style.transform = 'translateX(-20px)';
-                    setTimeout(() => rowElement.remove(), 500);
-                }
-            });
         });
 
         // ==================== CATEGORY MODAL ====================

@@ -59,39 +59,25 @@
                             </tr>
                         </thead>
                         <tbody id="toolsTableBody" class="divide-y divide-white/5 text-sm">
-                            
-                            <tr id="row-1" class="hover:bg-white/[0.02] transition-colors group">
+                            @forelse($tools as $tool)
+                            <tr id="row-{{ $tool->id }}" class="hover:bg-white/[0.02] transition-colors group">
                                 <td class="p-6">
-                                    <div class="font-bold text-white text-lg font-jetbrains">React</div>
+                                    <div class="font-bold text-white text-lg font-jetbrains">{{ $tool->name }}</div>
                                 </td>
                                 <td class="p-6">
                                     <div class="flex items-center justify-end gap-3 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <button type="button" onclick="openEditModal('React', 'row-1')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors" title="Edit">
+                                        <button type="button" onclick="openEditModal('{{ addslashes($tool->name) }}', '{{ $tool->id }}')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                         </button>
-                                        <button type="button" onclick="openDeleteModal('React', 'row-1')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors" title="Delete">
+                                        <button type="button" onclick="openDeleteModal('{{ addslashes($tool->name) }}', '{{ $tool->id }}')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                         </button>
                                     </div>
                                 </td>
                             </tr>
-
-                            <tr id="row-2" class="hover:bg-white/[0.02] transition-colors group">
-                                <td class="p-6">
-                                    <div class="font-bold text-white text-lg font-jetbrains">Laravel</div>
-                                </td>
-                                <td class="p-6">
-                                    <div class="flex items-center justify-end gap-3 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <button type="button" onclick="openEditModal('Laravel', 'row-2')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors" title="Edit">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                                        </button>
-                                        <button type="button" onclick="openDeleteModal('Laravel', 'row-2')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors" title="Delete">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-
+                            @empty
+                            <tr><td colspan="2" class="p-12 text-center text-zinc-600">Belum ada tool. Klik "Add Tool".</td></tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -112,7 +98,7 @@
             <h3 class="text-2xl font-bold text-white mb-2">Add New Tool</h3>
             <p class="text-zinc-400 text-sm mb-6">Add a new technology to your "proficient in" list.</p>
             
-            <form id="formCreate" onsubmit="handleCreate(event)">
+            <form id="formCreate" action="{{ route('admin.tools.store') }}" method="POST">
                 @csrf
                 <div class="mb-8">
                     <label class="block text-sm font-semibold text-zinc-300 mb-2">Tool Name</label>
@@ -132,7 +118,7 @@
             <h3 class="text-2xl font-bold text-white mb-2">Edit Tool Details</h3>
             <p class="text-zinc-400 text-sm mb-6">Update the name of the technology in your stack.</p>
             
-            <form id="formEdit" onsubmit="handleEdit(event)">
+            <form id="formEdit" action="" method="POST">
                 @csrf
                 @method('PUT')
                 <input type="hidden" id="editRowId">
@@ -156,7 +142,7 @@
             
             <div class="flex gap-4 justify-center">
                 <button type="button" onclick="closeModal('deleteModal')" class="px-6 py-2.5 rounded-full text-sm font-bold text-zinc-400 hover:text-white hover:bg-white/5 transition-all w-1/2 border border-white/5">Cancel</button>
-                <form id="formDelete" onsubmit="handleDelete(event)" class="w-1/2">
+                <form id="formDelete" action="" method="POST" class="w-1/2">
                     @csrf
                     @method('DELETE')
                     <input type="hidden" id="deleteRowId" value="">
@@ -189,55 +175,17 @@
         }
 
         // --- Edit Logic ---
-        function openEditModal(name, rowId) {
+        function openEditModal(name, toolId) {
             document.getElementById('editInputName').value = name;
-            document.getElementById('editRowId').value = rowId;
+            document.getElementById('formEdit').action = '/admin/info/tools-item/' + toolId;
             openModal('editModal');
         }
 
         // --- Delete Logic ---
-        function openDeleteModal(name, rowId) {
+        function openDeleteModal(name, toolId) {
             document.getElementById('deleteToolName').textContent = name;
-            document.getElementById('deleteRowId').value = rowId;
+            document.getElementById('formDelete').action = '/admin/info/tools-item/' + toolId;
             openModal('deleteModal');
-        }
-
-        // --- SUBMIT HANDLERS (Simulasi dengan SweetAlert) ---
-        function handleCreate(e) {
-            e.preventDefault();
-            closeModal('createModal');
-            swalDark.fire({
-                icon: 'success', title: 'Tool Added!', text: 'Successfully added to your tech stack.',
-                showConfirmButton: false, timer: 1500
-            }).then(() => location.reload()); // Refresh page di environment nyata
-        }
-
-        function handleEdit(e) {
-            e.preventDefault();
-            closeModal('editModal');
-            swalDark.fire({
-                icon: 'success', title: 'Changes Saved!', text: 'Tool name updated successfully.',
-                showConfirmButton: false, timer: 1500
-            }).then(() => location.reload());
-        }
-
-        function handleDelete(e) {
-            e.preventDefault();
-            closeModal('deleteModal');
-            swalDark.fire({
-                icon: 'success', title: 'Deleted!', text: 'Tool removed from your stack.',
-                showConfirmButton: false, timer: 1500
-            }).then(() => {
-                // Hapus baris secara visual
-                const rowId = document.getElementById('deleteRowId').value;
-                const rowElement = document.getElementById(rowId);
-                if(rowElement) {
-                    rowElement.style.transition = 'all 0.4s';
-                    rowElement.style.opacity = '0';
-                    rowElement.style.transform = 'translateX(-20px)';
-                    setTimeout(() => rowElement.remove(), 400);
-                }
-            });
         }
     </script>
 </body>

@@ -44,7 +44,17 @@
                 </button>
             </div>
 
-            <!-- Table Section -->
+            {{-- Flash Messages --}}
+            @if(session('success'))
+            <div class="mb-6 px-5 py-4 bg-green-500/10 border border-green-500/20 rounded-2xl text-green-400 text-sm font-medium">
+                ✓ {{ session('success') }}
+            </div>
+            @endif
+            @if($errors->any())
+            <div class="mb-6 px-5 py-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-400 text-sm">
+                @foreach($errors->all() as $error)<div>✕ {{ $error }}</div>@endforeach
+            </div>
+            @endif
             <div class="bg-[#141414] border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
@@ -57,63 +67,33 @@
                             </tr>
                         </thead>
                         <tbody id="experienceTableBody" class="divide-y divide-white/5 text-sm">
-
-                            <!-- Row Dummy 1 -->
-                            <tr id="row-1" class="hover:bg-white/[0.02] transition-colors group">
+                            @forelse($experiences as $exp)
+                            <tr id="row-{{ $exp->id }}" class="hover:bg-white/[0.02] transition-colors group">
                                 <td class="p-6">
                                     <div class="flex items-center gap-4">
-                                        <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 font-bold text-sm">G</div>
-                                        <span class="font-bold text-white">Google</span>
+                                        <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 font-bold text-sm">{{ strtoupper(substr($exp->company, 0, 1)) }}</div>
+                                        <span class="font-bold text-white">{{ $exp->company }}</span>
                                     </div>
                                 </td>
-                                <td class="p-6 text-zinc-300">Senior UI Designer</td>
-                                <td class="p-6 text-zinc-500 font-jetbrains text-xs">2022 — Present</td>
+                                <td class="p-6 text-zinc-300">{{ $exp->role }}</td>
+                                <td class="p-6 text-zinc-500 font-jetbrains text-xs">{{ $exp->start_year }} — {{ $exp->end_year }}</td>
                                 <td class="p-6">
                                     <div class="flex items-center justify-end gap-3 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <!-- View -->
-                                        <button type="button" onclick="openViewModal('Google', 'Senior UI Designer', '2022 — Present', 'Led design systems and product UI across multiple teams.')" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-colors" title="View Details">
+                                        <button type="button" onclick="openViewModal('{{ addslashes($exp->company) }}', '{{ addslashes($exp->role) }}', '{{ $exp->start_year }} — {{ $exp->end_year }}', '{{ addslashes($exp->description) }}')" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                         </button>
-                                        <!-- Edit -->
-                                        <button type="button" onclick="openEditModal('1', 'Google', 'Senior UI Designer', '2022', 'Present', 'Led design systems and product UI across multiple teams.')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors" title="Edit">
+                                        <button type="button" onclick="openEditModal('{{ $exp->id }}', '{{ addslashes($exp->company) }}', '{{ addslashes($exp->role) }}', '{{ $exp->start_year }}', '{{ $exp->end_year }}', '{{ addslashes($exp->description) }}')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                         </button>
-                                        <!-- Delete -->
-                                        <button type="button" onclick="openDeleteModal('Google', 'row-1')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors" title="Delete">
+                                        <button type="button" onclick="openDeleteModal('{{ addslashes($exp->company) }}', '{{ $exp->id }}')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                         </button>
                                     </div>
                                 </td>
                             </tr>
-
-                            <!-- Row Dummy 2 -->
-                            <tr id="row-2" class="hover:bg-white/[0.02] transition-colors group">
-                                <td class="p-6">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 font-bold text-sm">S</div>
-                                        <span class="font-bold text-white">Spotify</span>
-                                    </div>
-                                </td>
-                                <td class="p-6 text-zinc-300">Product Designer</td>
-                                <td class="p-6 text-zinc-500 font-jetbrains text-xs">2020 — 2022</td>
-                                <td class="p-6">
-                                    <div class="flex items-center justify-end gap-3 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <!-- View -->
-                                        <button type="button" onclick="openViewModal('Spotify', 'Product Designer', '2020 — 2022', 'Contributed to the core user experience redesign and mobile app optimizations.')" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-colors" title="View Details">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                        </button>
-                                        <!-- Edit -->
-                                        <button type="button" onclick="openEditModal('2', 'Spotify', 'Product Designer', '2020', '2022', 'Contributed to the core user experience redesign and mobile app optimizations.')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors" title="Edit">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                                        </button>
-                                        <!-- Delete -->
-                                        <button type="button" onclick="openDeleteModal('Spotify', 'row-2')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors" title="Delete">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-
+                            @empty
+                            <tr><td colspan="4" class="p-12 text-center text-zinc-600">Belum ada experience. Klik "Add Experience".</td></tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -135,7 +115,7 @@
                 <p class="text-zinc-400 mt-2">Add a new entry to your work history.</p>
             </div>
 
-            <form id="createForm" action="#" method="POST">
+            <form id="createForm" action="{{ route('admin.experiences.store') }}" method="POST">
                 @csrf
                 <div class="space-y-6">
                     <div>
@@ -185,7 +165,7 @@
                 <p class="text-zinc-400 mt-2">Update this experience entry.</p>
             </div>
 
-            <form id="editForm" action="#" method="POST">
+            <form id="editForm" action="" method="POST">
                 @csrf
                 @method('PUT')
                 <input type="hidden" id="editId" name="id">
@@ -267,7 +247,7 @@
             
             <div class="flex gap-4 justify-center">
                 <button type="button" onclick="closeDeleteModal()" class="px-6 py-2.5 rounded-full text-sm font-bold text-zinc-400 hover:text-white hover:bg-white/5 transition-all w-1/2 border border-white/5">Cancel</button>
-                <form id="deleteForm" action="#" method="POST" class="w-1/2">
+                <form id="deleteForm" action="" method="POST" class="w-1/2">
                     @csrf
                     @method('DELETE')
                     <input type="hidden" id="deleteRowId" value="">
@@ -306,20 +286,6 @@
             createModalContent.classList.add('scale-95');
         }
 
-        createForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            closeCreateModal();
-            swalDark.fire({
-                icon: 'success',
-                title: 'Experience Added!',
-                text: 'New experience entry has been saved.',
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                location.reload();
-            });
-        });
-
         // ==================== EDIT MODAL ====================
         const editModal = document.getElementById('editModal');
         const editModalContent = document.getElementById('editModalContent');
@@ -332,10 +298,9 @@
             document.getElementById('editStartYear').value = startYear;
             document.getElementById('editEndYear').value = endYear;
             document.getElementById('editDesc').value = desc;
+            editForm.action = '/admin/info/experiences/' + id;
 
-            // Tutup view modal jika sedang terbuka
             closeViewModal();
-
             editModal.classList.remove('opacity-0', 'pointer-events-none');
             editModalContent.classList.remove('scale-95');
         }
@@ -344,23 +309,6 @@
             editModal.classList.add('opacity-0', 'pointer-events-none');
             editModalContent.classList.add('scale-95');
         }
-
-        editForm.addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            closeEditModal();
-            Swal.fire({
-                background: '#141414',
-                color: '#ffffff',
-                icon: 'success',
-                title: 'Changes Saved!',
-                text: 'Experience entry has been updated.',
-                showConfirmButton: false,
-                timer: 2000,
-                customClass: { popup: 'border border-white/10 rounded-3xl shadow-2xl' }
-            }).then(() => {
-                location.reload();
-            });
-        });
 
         // ==================== VIEW MODAL ====================
         const viewModal = document.getElementById('viewModal');
@@ -395,9 +343,9 @@
         const deleteNameSpan = document.getElementById('deleteName');
         const deleteRowInput = document.getElementById('deleteRowId');
 
-        function openDeleteModal(companyName, rowId) {
+        function openDeleteModal(companyName, expId) {
             deleteNameSpan.textContent = companyName;
-            deleteRowInput.value = rowId;
+            document.getElementById('deleteForm').action = '/admin/info/experiences/' + expId;
             deleteModal.classList.remove('opacity-0', 'pointer-events-none');
             deleteContent.classList.remove('scale-95');
         }
@@ -407,26 +355,8 @@
             deleteContent.classList.add('scale-95');
         }
 
-        document.getElementById('deleteForm').addEventListener('submit', function(e) {
-            e.preventDefault(); 
+        document.getElementById('deleteForm').addEventListener('submit', function() {
             closeDeleteModal();
-
-            swalDark.fire({
-                icon: 'success',
-                title: 'Deleted!',
-                text: 'Experience entry has been removed.',
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                const rowId = document.getElementById('deleteRowId').value;
-                const rowElement = document.getElementById(rowId);
-                if(rowElement) {
-                    rowElement.style.transition = 'all 0.5s ease';
-                    rowElement.style.opacity = '0';
-                    rowElement.style.transform = 'translateX(-20px)';
-                    setTimeout(() => rowElement.remove(), 500);
-                }
-            });
         });
     </script>
 </body>

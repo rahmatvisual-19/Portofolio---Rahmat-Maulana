@@ -47,8 +47,19 @@
                 </button>
             </div>
 
-            <!-- Table Section -->
-            <div class="bg-[#141414] border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+            {{-- Flash Messages --}}
+            @if(session('success'))
+            <div class="mb-6 px-5 py-4 bg-green-500/10 border border-green-500/20 rounded-2xl text-green-400 text-sm font-medium">
+                ✓ {{ session('success') }}
+            </div>
+            @endif
+            @if($errors->any())
+            <div class="mb-6 px-5 py-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-400 text-sm">
+                @foreach($errors->all() as $error)
+                <div>✕ {{ $error }}</div>
+                @endforeach
+            </div>
+            @endif
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -59,91 +70,39 @@
                             </tr>
                         </thead>
                         <tbody id="clientTableBody" class="divide-y divide-white/5 text-sm">
-                            
-                            <!-- Dummy 1: Logo + Nama -->
-                            <tr id="row-1" class="hover:bg-white/[0.02] transition-colors group">
+                            @forelse($clients as $c)
+                            <tr id="row-{{ $c->id }}" class="hover:bg-white/[0.02] transition-colors group">
                                 <td class="p-6">
                                     <div class="w-12 h-12 rounded-xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center p-2">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" class="w-full h-full object-contain filter invert opacity-80" alt="Spotify">
+                                        @if($c->logo_path)
+                                            <img src="{{ asset('storage/' . $c->logo_path) }}" class="w-full h-full object-contain filter invert opacity-80" alt="{{ $c->name }}">
+                                        @else
+                                            <span class="text-zinc-600 text-[10px] uppercase font-bold text-center leading-tight">No<br>Logo</span>
+                                        @endif
                                     </div>
                                 </td>
                                 <td class="p-6">
-                                    <div class="font-bold text-white text-base">Spotify</div>
+                                    <div class="font-bold text-white text-base">{{ $c->name ?: '—' }}</div>
                                 </td>
                                 <td class="p-6">
                                     <div class="flex items-center justify-end gap-3 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <!-- View -->
-                                        <button type="button" onclick="openViewModal('Spotify', 'https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg')" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-colors" title="View Details">
+                                        <button type="button" onclick="openViewModal('{{ addslashes($c->name) }}', '{{ $c->logo_path ? asset('storage/' . $c->logo_path) : '' }}')" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                         </button>
-                                        <!-- Edit -->
-                                        <button type="button" onclick="openEditModal('1', 'Spotify', 'https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors" title="Edit">
+                                        <button type="button" onclick="openEditModal('{{ $c->id }}', '{{ addslashes($c->name) }}', '{{ $c->logo_path ? asset('storage/' . $c->logo_path) : '' }}')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                         </button>
-                                        <!-- Delete -->
-                                        <button type="button" onclick="openDeleteModal('Spotify', 'row-1')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors" title="Delete">
+                                        <button type="button" onclick="openDeleteModal('{{ addslashes($c->name ?: 'this client') }}', '{{ $c->id }}')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                         </button>
                                     </div>
                                 </td>
                             </tr>
-
-                            <!-- Dummy 2: Nama Saja -->
-                            <tr id="row-2" class="hover:bg-white/[0.02] transition-colors group">
-                                <td class="p-6">
-                                    <div class="w-12 h-12 rounded-xl border border-dashed border-white/20 flex items-center justify-center text-zinc-600 text-[10px] uppercase font-bold text-center leading-tight">
-                                        No<br>Logo
-                                    </div>
-                                </td>
-                                <td class="p-6">
-                                    <div class="font-bold text-white text-base">Vercel Inc.</div>
-                                </td>
-                                <td class="p-6">
-                                    <div class="flex items-center justify-end gap-3 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <!-- View -->
-                                        <button type="button" onclick="openViewModal('Vercel Inc.', '')" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-colors" title="View Details">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                        </button>
-                                        <!-- Edit -->
-                                        <button type="button" onclick="openEditModal('2', 'Vercel Inc.', '')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors" title="Edit">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                                        </button>
-                                        <!-- Delete -->
-                                        <button type="button" onclick="openDeleteModal('Vercel Inc.', 'row-2')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors" title="Delete">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                        </button>
-                                    </div>
-                                </td>
+                            @empty
+                            <tr>
+                                <td colspan="3" class="p-12 text-center text-zinc-600">Belum ada client. Klik "Add New Client" untuk menambahkan.</td>
                             </tr>
-
-                            <!-- Dummy 3: Logo Saja -->
-                            <tr id="row-3" class="hover:bg-white/[0.02] transition-colors group">
-                                <td class="p-6">
-                                    <div class="w-12 h-12 rounded-xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center p-2">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Apple-logo.png" class="w-full h-full object-contain filter invert opacity-80" alt="Apple">
-                                    </div>
-                                </td>
-                                <td class="p-6">
-                                    <span class="text-zinc-500 italic text-sm">Logo Only</span>
-                                </td>
-                                <td class="p-6">
-                                    <div class="flex items-center justify-end gap-3 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <!-- View -->
-                                        <button type="button" onclick="openViewModal('Logo Only', 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Apple-logo.png')" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-colors" title="View Details">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                        </button>
-                                        <!-- Edit -->
-                                        <button type="button" onclick="openEditModal('3', '', 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Apple-logo.png')" class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-500/30 transition-colors" title="Edit">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                                        </button>
-                                        <!-- Delete -->
-                                        <button type="button" onclick="openDeleteModal('This Client', 'row-3')" class="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/30 transition-colors" title="Delete">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -165,7 +124,7 @@
                 <p class="text-zinc-400 mt-2">You can add a client by providing just their name, just their logo, or both.</p>
             </div>
 
-            <form id="createClientForm" action="#" method="POST" enctype="multipart/form-data">
+            <form id="createClientForm" action="{{ route('admin.clients.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                     <!-- Kiri: Client Name -->
@@ -213,7 +172,7 @@
                 <p class="text-zinc-400 mt-2">Update the information for this client.</p>
             </div>
 
-            <form id="editClientForm" action="#" method="POST" enctype="multipart/form-data">
+            <form id="editClientForm" action="" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <input type="hidden" id="editClientId" name="id">
@@ -286,7 +245,7 @@
             
             <div class="flex gap-4 justify-center">
                 <button type="button" onclick="closeDeleteModal()" class="px-6 py-2.5 rounded-full text-sm font-bold text-zinc-400 hover:text-white hover:bg-white/5 transition-all w-1/2 border border-white/5">Cancel</button>
-                <form id="deleteClientForm" action="#" method="POST" class="w-1/2">
+                <form id="deleteClientForm" action="" method="POST" class="w-1/2">
                     @csrf
                     @method('DELETE')
                     <input type="hidden" id="deleteRowId" value="">
@@ -325,11 +284,11 @@
         }
 
         createForm.addEventListener('submit', function(e) {
-            e.preventDefault(); 
             const name = document.getElementById('createClientName').value.trim();
             const logo = document.getElementById('createClientLogo').value;
 
             if (name === '' && logo === '') {
+                e.preventDefault();
                 swalDark.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -338,17 +297,7 @@
                 });
                 return;
             }
-
-            closeCreateModal();
-            swalDark.fire({
-                icon: 'success',
-                title: 'Client Saved!',
-                text: 'New client has been successfully added to your portfolio.',
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                location.reload();
-            });
+            // Submit normal ke server
         });
 
         // ==================== EDIT MODAL ====================
@@ -359,6 +308,9 @@
         function openEditModal(id, name, logoSrc) {
             document.getElementById('editClientId').value = id;
             document.getElementById('editClientName').value = name === 'Logo Only' ? '' : name;
+
+            // Set action form ke route update yang benar
+            editForm.action = '/admin/work/clients/' + id;
 
             const previewImg = document.getElementById('editLogoPreview');
             const previewBadge = document.getElementById('editLogoBadge');
@@ -385,24 +337,8 @@
             editModalContent.classList.add('scale-95');
         }
 
-        editForm.addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            // Validasi di sisi client sebelum submit (misal nama dikosongkan dan logo tidak diubah) 
-            // bisa ditambahkan sesuai kebutuhan.
-            
-            closeEditModal();
-            Swal.fire({
-                background: '#141414',
-                color: '#ffffff',
-                icon: 'success',
-                title: 'Changes Saved!',
-                text: 'Client details have been successfully updated.',
-                showConfirmButton: false,
-                timer: 2000,
-                customClass: { popup: 'border border-white/10 rounded-3xl shadow-2xl' }
-            }).then(() => {
-                location.reload();
-            });
+        editForm.addEventListener('submit', function() {
+            // Submit normal ke server
         });
 
         // ==================== VIEW MODAL ====================
@@ -437,11 +373,10 @@
         const deleteModal = document.getElementById('deleteModal');
         const deleteContent = document.getElementById('deleteModalContent');
         const deleteNameSpan = document.getElementById('deleteClientName');
-        const deleteRowInput = document.getElementById('deleteRowId');
 
-        function openDeleteModal(clientName, rowId) {
+        function openDeleteModal(clientName, clientId) {
             deleteNameSpan.textContent = clientName;
-            deleteRowInput.value = rowId;
+            document.getElementById('deleteClientForm').action = '/admin/work/clients/' + clientId;
             deleteModal.classList.remove('opacity-0', 'pointer-events-none');
             deleteContent.classList.remove('scale-95');
         }
@@ -451,25 +386,8 @@
             deleteContent.classList.add('scale-95');
         }
 
-        document.getElementById('deleteClientForm').addEventListener('submit', function(e) {
-            e.preventDefault(); 
+        document.getElementById('deleteClientForm').addEventListener('submit', function() {
             closeDeleteModal();
-            swalDark.fire({
-                icon: 'success',
-                title: 'Deleted!',
-                text: 'The client has been permanently removed.',
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                const rowId = document.getElementById('deleteRowId').value;
-                const rowElement = document.getElementById(rowId);
-                if(rowElement) {
-                    rowElement.style.transition = 'all 0.5s ease';
-                    rowElement.style.opacity = '0';
-                    rowElement.style.transform = 'translateX(-20px)';
-                    setTimeout(() => rowElement.remove(), 500);
-                }
-            });
         });
     </script>
 </body>

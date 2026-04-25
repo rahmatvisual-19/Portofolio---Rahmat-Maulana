@@ -291,9 +291,9 @@
     .animated-button:hover .text { transform: translateX(12px); }
 
     /* ===== Minecraft Cursor & Effects ===== */
-    #minecraft-cursor { position: fixed; top: 0; left: 0; width: 44px; height: 44px; background-image: url('https://cur.cursors-4u.net/games/gam-13/gam1282.png'); background-size: contain; background-repeat: no-repeat; pointer-events: none; z-index: 999999; transform: rotate(-15deg); filter: drop-shadow(0 0 8px var(--accent-blue-glow)); }
-    #cursor-glow { position: fixed; width: 160px; height: 160px; background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 40%, transparent 75%); border-radius: 50%; pointer-events: none; z-index: 999998; transform: translate(-50%, -50%); transition: width 0.4s ease, height 0.4s ease; }
-    .particle { position: fixed; background: radial-gradient(circle, #fff 0%, var(--accent-blue) 60%, transparent 100%); border-radius: 50%; pointer-events: none; z-index: 999997; box-shadow: 0 0 10px rgba(59, 130, 246, 0.8); animation: particleLife 0.8s forwards ease-out; }
+    #minecraft-cursor { position: fixed; top: 0; left: 0; width: 44px; height: 44px; background-image: url('https://cur.cursors-4u.net/games/gam-13/gam1282.png'); background-size: contain; background-repeat: no-repeat; pointer-events: none; z-index: 2147483647; transform: rotate(-15deg); filter: drop-shadow(0 0 8px var(--accent-blue-glow)); }
+    #cursor-glow { position: fixed; width: 160px; height: 160px; background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 40%, transparent 75%); border-radius: 50%; pointer-events: none; z-index: 2147483646; transform: translate(-50%, -50%); transition: width 0.4s ease, height 0.4s ease; }
+    .particle { position: fixed; background: radial-gradient(circle, #fff 0%, var(--accent-blue) 60%, transparent 100%); border-radius: 50%; pointer-events: none; z-index: 2147483645; box-shadow: 0 0 10px rgba(59, 130, 246, 0.8); animation: particleLife 0.8s forwards ease-out; }
     @keyframes particleLife { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0) translateY(20px); } }
 
     /* --- Premium Blur & Scale Reveal Animasi Scroll --- */
@@ -485,45 +485,32 @@
         </div>
 
         <div class="showcase-grid md:grid-cols-2 lg:grid-cols-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none gap-6 md:gap-8 transition-all duration-500 pb-8 md:pb-0 hide-scrollbar -mx-6 px-6 md:mx-0 md:px-0" id="projects-grid">
-            @php
-                $projects = [
-                    ['category' => 'design', 'title' => 'Nexus', 'company' => 'Google, \'23', 'desc' => 'Desain ekosistem.', 'img' => 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200'],
-                    ['category' => 'dev', 'title' => 'Aether', 'company' => 'Discord, \'22', 'desc' => 'Arsitektur backend.', 'img' => 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?q=80&w=1200'],
-                    ['category' => 'design', 'title' => 'Lumina', 'company' => 'Spotify, \'21', 'desc' => 'Antarmuka futuristik.', 'img' => 'https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=1200'],
-                    ['category' => 'dev', 'title' => 'Orbit', 'company' => 'Stripe, \'24', 'desc' => 'Visualisasi data.', 'img' => 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200'],
-                    ['category' => 'design', 'title' => 'Echo', 'company' => 'Apple, \'23', 'desc' => 'Sistem suara spasial.', 'img' => 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1200'],
-                    ['category' => 'dev', 'title' => 'Vanguard', 'company' => 'Vercel, \'22', 'desc' => 'Infrastruktur cloud.', 'img' => 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200'],
-                    ['category' => 'design', 'title' => 'Prism UI', 'company' => 'Figma, \'21', 'desc' => 'Sistem desain UI.', 'img' => 'https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1200'],
-                    ['category' => 'dev', 'title' => 'Quantum', 'company' => 'OpenAI, \'24', 'desc' => 'Mesin pemrosesan AI.', 'img' => 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200'],
-                ];
-            @endphp
 
-            @foreach($projects as $index => $p)
-            <div class="project-item relative group reveal transition-all duration-500 w-full snap-center md:snap-align-none" data-category="{{ $p['category'] }}" style="transition-delay: {{ $index * 100 }}ms">
-                
+            @forelse($projects as $index => $p)
+            <div class="project-item relative group reveal transition-all duration-500 w-full snap-center md:snap-align-none" data-category="{{ $p->category }}" style="transition-delay: {{ $index * 100 }}ms">
+
                 <div class="absolute inset-0 rounded-[24px] border border-white/10 blur-sm opacity-40 group-hover:opacity-80 transition duration-500"></div>
 
-                <!-- Perhatikan penggunaan "this" dan "data-attributes" untuk menghindari error karakter kutip -->
                 <div onclick="openCardLightbox(this)"
-                     data-img="{{ $p['img'] }}"
-                     data-title="{{ $p['title'] }}"
-                     data-company="{{ $p['company'] }}"
-                     data-desc="{{ $p['desc'] }}"
-                     data-category="{{ $p['category'] }}"
+                     data-img="{{ asset('storage/' . $p->image_path) }}"
+                     data-title="{{ $p->title }}"
+                     data-company="{{ $p->company }}"
+                     data-desc="{{ $p->description }}"
+                     data-category="{{ $p->category }}"
                      class="block h-full relative rounded-[24px] overflow-hidden bg-[#111111] border border-white/10 p-5 transition-all duration-500 hover:-translate-y-1 hover:bg-[#161616] cursor-none no-underline flex flex-col">
 
                     <div class="flex justify-between items-start mb-6">
                         <div class="pr-2">
                             <h3 class="text-xl md:text-2xl font-bold tracking-tight text-white mb-1 font-albert">
-                                {{ $p['title'] }}
+                                {{ $p->title }}
                             </h3>
                             <p class="text-zinc-400 text-xs md:text-sm font-albert font-light leading-relaxed mt-1 line-clamp-2">
-                                <span class="text-white font-medium">{{ $p['company'] }}</span>
-                                — {{ $p['desc'] }}
+                                <span class="text-white font-medium">{{ $p->company }}</span>
+                                — {{ $p->description }}
                             </p>
                         </div>
 
-                        <img 
+                        <img
                             src="https://cdn.prod.website-files.com/63dcb6e1a80e9454b630f4c4/641284285486aaab07feafaa_icon-arrow-project.svg"
                             alt="Arrow"
                             class="w-6 h-6 transform -rotate-45 group-hover:rotate-0 transition duration-300 opacity-70 group-hover:opacity-100 shrink-0 mt-1"
@@ -531,9 +518,9 @@
                     </div>
 
                     <div class="relative rounded-xl md:rounded-[18px] overflow-hidden border border-white/10 aspect-[5/4] mt-auto card-image-container">
-                        <img 
-                            src="{{ $p['img'] }}"
-                            alt="{{ $p['title'] }}"
+                        <img
+                            src="{{ asset('storage/' . $p->image_path) }}"
+                            alt="{{ $p->title }}"
                             class="w-full h-full object-cover opacity-100 transition duration-700 main-img"
                         />
                         <div class="absolute inset-0 bg-gradient-to-t from-[#111111]/60 via-transparent to-transparent pointer-events-none"></div>
@@ -544,7 +531,11 @@
 
                 </div>
             </div>
-            @endforeach
+            @empty
+            <div class="col-span-4 text-center py-24 text-zinc-600">
+                <p class="text-lg">Belum ada project. Tambahkan melalui admin panel.</p>
+            </div>
+            @endforelse
         </div>
     </section>
 
@@ -586,14 +577,27 @@
 
         <div class="marquee-container mb-8 md:mb-12">
             <div class="marquee-content animate-scroll-right">
-                @foreach(range(1, 10) as $i)
+                @forelse($clients as $client)
                 <div class="px-8 py-5 md:px-10 md:py-6 glass-card rounded-2xl flex items-center justify-center min-w-[160px] md:min-w-[200px] opacity-40 hover:opacity-100 transition-opacity">
-                    <span class="text-lg md:text-xl font-bold tracking-widest uppercase italic">CLIENT_{{ $i }}</span>
+                    @if($client->logo_path)
+                        <img src="{{ asset('storage/' . $client->logo_path) }}" alt="{{ $client->name }}" class="h-8 object-contain">
+                    @else
+                        <span class="text-lg md:text-xl font-bold tracking-widest uppercase italic">{{ $client->name }}</span>
+                    @endif
                 </div>
-                @endforeach
-                @foreach(range(1, 10) as $i)
+                @empty
+                <div class="px-8 py-5 md:px-10 md:py-6 glass-card rounded-2xl flex items-center justify-center min-w-[160px] md:min-w-[200px] opacity-40">
+                    <span class="text-lg font-bold tracking-widest uppercase italic text-zinc-600">No clients yet</span>
+                </div>
+                @endforelse
+                {{-- Duplikat untuk seamless loop --}}
+                @foreach($clients as $client)
                 <div class="px-8 py-5 md:px-10 md:py-6 glass-card rounded-2xl flex items-center justify-center min-w-[160px] md:min-w-[200px] opacity-40 hover:opacity-100 transition-opacity">
-                    <span class="text-lg md:text-xl font-bold tracking-widest uppercase italic">CLIENT_{{ $i }}</span>
+                    @if($client->logo_path)
+                        <img src="{{ asset('storage/' . $client->logo_path) }}" alt="{{ $client->name }}" class="h-8 object-contain">
+                    @else
+                        <span class="text-lg md:text-xl font-bold tracking-widest uppercase italic">{{ $client->name }}</span>
+                    @endif
                 </div>
                 @endforeach
             </div>
@@ -601,14 +605,23 @@
 
         <div class="marquee-container">
             <div class="marquee-content animate-scroll-left">
-                @foreach(range(11, 20) as $i)
+                @foreach($clients as $client)
                 <div class="px-8 py-5 md:px-10 md:py-6 glass-card rounded-2xl flex items-center justify-center min-w-[160px] md:min-w-[200px] opacity-40 hover:opacity-100 transition-opacity">
-                    <span class="text-lg md:text-xl font-bold tracking-widest uppercase italic">PARTNER_{{ $i }}</span>
+                    @if($client->logo_path)
+                        <img src="{{ asset('storage/' . $client->logo_path) }}" alt="{{ $client->name }}" class="h-8 object-contain">
+                    @else
+                        <span class="text-lg md:text-xl font-bold tracking-widest uppercase italic">{{ $client->name }}</span>
+                    @endif
                 </div>
                 @endforeach
-                @foreach(range(11, 20) as $i)
+                {{-- Duplikat untuk seamless loop --}}
+                @foreach($clients as $client)
                 <div class="px-8 py-5 md:px-10 md:py-6 glass-card rounded-2xl flex items-center justify-center min-w-[160px] md:min-w-[200px] opacity-40 hover:opacity-100 transition-opacity">
-                    <span class="text-lg md:text-xl font-bold tracking-widest uppercase italic">PARTNER_{{ $i }}</span>
+                    @if($client->logo_path)
+                        <img src="{{ asset('storage/' . $client->logo_path) }}" alt="{{ $client->name }}" class="h-8 object-contain">
+                    @else
+                        <span class="text-lg md:text-xl font-bold tracking-widest uppercase italic">{{ $client->name }}</span>
+                    @endif
                 </div>
                 @endforeach
             </div>

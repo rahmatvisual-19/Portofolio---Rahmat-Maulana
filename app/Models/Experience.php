@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Experience extends Model
 {
-    //
+    protected $fillable = ['company', 'role', 'start_year', 'end_year', 'description'];
 }
